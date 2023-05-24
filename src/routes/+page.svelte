@@ -3,6 +3,7 @@
 	import ChatOutput from '../components/ChatOutput.svelte';
 	import LoadingSpinner from '../components/LoadingSpinner.svelte';
 	import TextArea from '../components/TextArea.svelte';
+	import Header from '../components/Header.svelte';
 
 	let inputText = '';
 	/**
@@ -25,6 +26,7 @@
 
 <div class="flex flex-col items-center justify-center mt-12">
 	<div class="flex flex-col items-center">
+		<Header text="Sveltekit GPT-4" />
 		<TextArea
 			value={inputText}
 			onInput={(/** @type {{ target: { value: string; }; }} */ e) => (inputText = e.target.value)}
