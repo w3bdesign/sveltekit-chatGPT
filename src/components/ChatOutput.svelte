@@ -46,7 +46,7 @@
 <svelte:body on:load={() => hljs.highlightAll()} />
 
 {#each processedTexts as text}
-	<div class="mt-2 mb-2">
+	<div class="mt-4 mb-4">
 		<div class="border shadow rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
 			<div class="p-2">
 				{@html text.textBeforeCode}
