@@ -5,7 +5,8 @@
 </script>
 
 <textarea
-	class="w-[20rem] md:w-[40rem] h-[15rem] md:h-[20rem] border rounded p-2 bg-slate-100"
+	maxlength="4000"
+	class="w-[20rem] md:w-[40rem] h-[15rem] md:h-[20rem] border rounded p-4 bg-slate-50"
 	bind:value
 	{placeholder}
 	on:input={onInput}

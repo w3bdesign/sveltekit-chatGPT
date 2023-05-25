@@ -36,7 +36,9 @@
 			<LoadingSpinner {isLoading} />
 		{/if}
 		{#if outputText.length}
-			<ChatOutput {outputText} />
+			<div class="mt-4">
+				<ChatOutput {outputText} />
+			</div>
 		{/if}
 	</div>
 </div>
