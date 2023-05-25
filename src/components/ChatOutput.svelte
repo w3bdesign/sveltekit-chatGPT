@@ -1,7 +1,7 @@
 <script>
 	import hljs from 'highlight.js';
+
 	import 'highlight.js/styles/github-dark.css';
-	//import 'highlight.js/styles/stackoverflow-dark.css';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
@@ -17,7 +17,13 @@
 	let codeRegex = /```javascript([\s\S]*?)```/;
 	let codeMatch = testText.match(codeRegex);
 	let code = codeMatch ? codeMatch[1] : '';
-	let newTestText = testText.replace(codeRegex, 'CODE_BLOCK').replace(/\[\d+\]:.*\n/g, '');
+	let newTestText = testText.replace(codeRegex, 'CODE_BLOCK');
+	let linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
+	let links = [...newTestText.matchAll(linkRegex)].map((match) => ({
+		url: match[1],
+		text: match[2]
+	}));
+	newTestText = newTestText.replace(linkRegex, '');
 	let [textBeforeCode, textAfterCode] = newTestText.split('CODE_BLOCK');
 
 	storeHighlightJs.set(hljs);
@@ -26,25 +32,21 @@
 <svelte:body on:load={() => hljs.highlightAll()} />
 
 <div class="mt-4">
-	{#each outputText as text}
-		<div class="mt-4 border shadow rounded p-4 w-[20rem] md:w-[40rem] bg-slate-50">
-			{text}
-		</div>
-	{/each}
-</div>
-
-<div class="mt-4">
-	<div class="mt-4 border shadow rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
+	<div class="mt-2 border shadow rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
 		<div class="p-2">
 			{@html textBeforeCode}
 			<div class="py-6">
 				<CodeBlock language="javascript" {code} />
 			</div>
 			{@html textAfterCode}
-
-			<hr />
-
-			{@html testText}
+			<div class="py-2">
+				<h2 class="text-xl py-4 font-bold text-center">Sources</h2>
+				{#each links as link}
+					<div class="py-1 px-2">
+						<a class="chip variant-filled w-full text-sm" href={link.url} target="_blank">{link.text}</a>
+					</div>
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>
