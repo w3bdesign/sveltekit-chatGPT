@@ -1,4 +1,4 @@
-![Screenshot] (https://user-images.githubusercontent.com/45217974/241082880-995617ca-74e5-4532-a9e1-07d1efe4dd98.png)
+![Screenshot](https://user-images.githubusercontent.com/45217974/241082880-995617ca-74e5-4532-a9e1-07d1efe4dd98.png)
 
 # Sveltekit with chatGPT4
 
