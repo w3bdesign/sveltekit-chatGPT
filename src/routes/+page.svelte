@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Button from '../components/Button.svelte';
 	import ChatOutput from '../components/ChatOutput.svelte';
 	import LoadingSpinner from '../components/LoadingSpinner.svelte';
@@ -9,7 +9,7 @@
 	/**
 	 * @type {string[]}
 	 */
-	let outputText = [];
+	let outputText: string[] = [];
 	let isLoading = false;
 	const proxyURL = 'https://cors-proxy.fringe.zone/';
 	const apiURL = 'http://144.91.83.35:5500/';
@@ -27,10 +27,7 @@
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="Sveltekit GPT-4" />
-		<TextArea
-			value={inputText}
-			onInput={(/** @type {{ target: { value: string; }; }} */ e) => (inputText = e.target.value)}
-		/>
+		<TextArea bind:value={inputText} />
 		<Button text="Submit" buttonAction={getData} />
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
