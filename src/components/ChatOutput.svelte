@@ -46,17 +46,18 @@
 <svelte:body on:load={() => hljs.highlightAll()} />
 
 {#each processedTexts as text}
-	<div class="mt-2 mb-4">
+	<div class="mt-2 mb-3">
 		<div class="border shadow rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
 			<div class="p-2">
 				{@html text.textBeforeCode}
 				{#if text.prettifiedCode}
-					<div class="py-6">
+					<div class="py-4">
 						<CodeBlock language="javascript" code={`${text.prettifiedCode}`} />
 					</div>
 				{/if}
 				{#if text.textAfterCode} {@html text.textAfterCode} {/if}
 				{#if text.links.length}
+					<div class="mt-6"><hr class="h-px bg-gray-300 border-0 dark:bg-gray-700" /></div>
 					<div class="py-2">
 						<h2 class="text-xl py-4 font-bold text-center">Sources</h2>
 						{#each text.links as link}
