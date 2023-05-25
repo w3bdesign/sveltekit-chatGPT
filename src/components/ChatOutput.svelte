@@ -1,6 +1,8 @@
 <script>
 	import hljs from 'highlight.js';
 
+	import js_beautify from 'js-beautify';
+
 	import 'highlight.js/styles/github-dark.css';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
@@ -17,6 +19,8 @@
 	let codeRegex = /```javascript([\s\S]*?)```/;
 	let codeMatch = testText.match(codeRegex);
 	let code = codeMatch ? codeMatch[1] : '';
+	let prettifiedCode = js_beautify(code);
+
 	let newTestText = testText.replace(codeRegex, 'CODE_BLOCK');
 	let linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
 	let links = [...newTestText.matchAll(linkRegex)].map((match) => ({
@@ -36,14 +40,16 @@
 		<div class="p-2">
 			{@html textBeforeCode}
 			<div class="py-6">
-				<CodeBlock language="javascript" {code} />
+				<CodeBlock language="javascript" code={`${prettifiedCode}`} />
 			</div>
 			{@html textAfterCode}
 			<div class="py-2">
 				<h2 class="text-xl py-4 font-bold text-center">Sources</h2>
 				{#each links as link}
 					<div class="py-1 px-2">
-						<a class="chip variant-filled w-full text-sm" href={link.url} target="_blank">{link.text}</a>
+						<a class="chip variant-filled w-full text-sm" href={link.url} target="_blank"
+							>{link.text}</a
+						>
 					</div>
 				{/each}
 			</div>
