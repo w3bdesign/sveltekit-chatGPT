@@ -8,6 +8,7 @@
 
 	import hljs from 'highlight.js';
 	import js_beautify from 'js-beautify';
+	import { fade } from 'svelte/transition';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
@@ -46,7 +47,10 @@
 <svelte:body on:load={() => hljs.highlightAll()} />
 
 {#each processedTexts as text}
-	<div class="mt-2 mb-3">
+	<div
+		class="mt-2 mb-3 transition duration-500 ease-in-out transform opacity-100"
+		transition:fade={{ delay: 200 }}
+	>
 		<div class="border shadow rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
 			<div class="p-2">
 				{@html text.textBeforeCode}
