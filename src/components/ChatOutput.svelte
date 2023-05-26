@@ -7,27 +7,31 @@
 	}
 
 	import hljs from 'highlight.js';
-	import js_beautify from 'js-beautify';
 	import { fade, fly } from 'svelte/transition';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 
-	import 'highlight.js/styles/github-dark.css';
 	import { processText } from '../utils/functions/functions';
+
+	import 'highlight.js/styles/github-dark.css';
 
 	export let outputText: string[] = [];
 
 	let processedTexts: ProcessedText[] = [];
 
+	storeHighlightJs.set(hljs);
+
 	$: {
 		processedTexts = outputText.map(processText);
 	}
-
-	storeHighlightJs.set(hljs);
 </script>
 
-<svelte:body on:load={() => hljs.highlightAll()} />
+<svelte:body
+	on:load={() => {
+		hljs.highlightAll();
+	}}
+/>
 
 {#each processedTexts as text}
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
