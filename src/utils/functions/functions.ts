@@ -9,15 +9,15 @@ import js_beautify from 'js-beautify';
  * links, and the text before and after the code block
  */
 export function processText(text: string) {
-	let codeRegex = /```([\s\S]*?)\n([\s\S]*?)```/;
-	let codeMatch = text.match(codeRegex);
-	let language = codeMatch ? codeMatch[1] : '';
-	let code = codeMatch ? codeMatch[2] : '';
-	let prettifiedCode = language === 'javascript' ? js_beautify(code) : code;
+	const codeRegex = /```([\s\S]*?)\n([\s\S]*?)```/;
+	const codeMatch = text.match(codeRegex);
+	const language = codeMatch ? codeMatch[1] : '';
+	const code = codeMatch ? codeMatch[2] : '';
+	const prettifiedCode = language === 'javascript' ? js_beautify(code) : code;
 
 	let newText = text.replace(codeRegex, 'CODE_BLOCK');
-	let linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
-	let links = [...newText.matchAll(linkRegex)].map((match) => ({
+	const linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
+	const links = [...newText.matchAll(linkRegex)].map((match) => ({
 		url: match[1],
 		text: match[2]
 	}));
@@ -28,7 +28,7 @@ export function processText(text: string) {
 		'<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md">$1</code>'
 	);
 
-	let [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
+	const [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
 
 	return { language, prettifiedCode, links, textBeforeCode, textAfterCode };
 }
