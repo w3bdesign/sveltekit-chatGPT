@@ -8,7 +8,7 @@
  
  Animations with `svelte/transition`.
  
- Text formatting with `js_beautify`. 
+ Code formatting with `js_beautify`. 
 
 ## Getting started
 
