@@ -1,6 +1,6 @@
 {
 	"name": "sveltekit-gpt4",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -13,13 +13,14 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"refresh": "rm -rf node_modules && rm package-lock.json && npm i && npm run format"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.34.3",
 		"@skeletonlabs/skeleton": "^1.6.2",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.18.0",
+		"@sveltejs/kit": "^1.19.0",
 		"@types/js-beautify": "^1.13.3",
 		"@typescript-eslint/eslint-plugin": "^5.59.7",
 		"@typescript-eslint/parser": "^5.59.7",
@@ -35,7 +36,7 @@
 		"tailwindcss": "^3.3.2",
 		"tslib": "^2.5.2",
 		"typescript": "^5.0.4",
-		"vite": "^4.3.8",
+		"vite": "^4.3.9",
 		"vitest": "^0.31.1"
 	},
 	"type": "module",

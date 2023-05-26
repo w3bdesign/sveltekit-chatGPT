@@ -2,6 +2,8 @@
 	export let text = '';
 </script>
 
-<h1 class="text-center font-bold text-2xl py-6">
-	{text}
-</h1>
+<div class="bg-slate-50 rounded mt-2 mb-4 w-full shadow-md">
+	<h1 class="text-center font-bold text-xl md:text-2xl py-4">
+		{text}
+	</h1>
+</div>
