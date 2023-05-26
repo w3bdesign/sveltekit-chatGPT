@@ -21,6 +21,10 @@ export function processText(text: string) {
 		text: match[2]
 	}));
 	newText = newText.replace(linkRegex, '');
+	newText = newText.replace(
+		/`([^`]+)`/g,
+		'<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md">$1</code>'
+	);
 	let [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
 
 	return { prettifiedCode, links, textBeforeCode, textAfterCode };
@@ -35,8 +39,7 @@ export function processText(text: string) {
  * @return {Promise<string>} The data retrieved from the API.
  */
 export async function getData(inputText: string, proxyURL: string, apiURL: string) {
-    const response = await fetch(`${proxyURL}${apiURL}?text=${encodeURIComponent(inputText)}`);
-    const data = await response.text();
-    return data;
+	const response = await fetch(`${proxyURL}${apiURL}?text=${encodeURIComponent(inputText)}`);
+	const data = await response.text();
+	return data;
 }
-
