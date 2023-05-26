@@ -8,7 +8,6 @@ import js_beautify from 'js-beautify';
  * @return {Object} an object containing the prettified code block, an array of
  * links, and the text before and after the code block
  */
-
 export function processText(text: string) {
 	let codeRegex = /```javascript([\s\S]*?)```/;
 	let codeMatch = text.match(codeRegex);
