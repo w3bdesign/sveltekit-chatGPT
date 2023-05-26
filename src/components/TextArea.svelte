@@ -2,6 +2,13 @@
 	export let value = '';
 	export let placeholder = '';
 	export let onInput = () => {};
+	export let handleSubmit = () => {};
+
+	function handleKeyPress(event: { key: string }) {
+		if (event.key === 'Enter') {
+			handleSubmit();
+		}
+	}
 </script>
 
 <textarea
@@ -10,4 +17,5 @@
 	bind:value
 	{placeholder}
 	on:input={onInput}
+	on:keypress={handleKeyPress}
 />

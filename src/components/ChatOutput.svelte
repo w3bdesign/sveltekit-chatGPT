@@ -2,6 +2,7 @@
 	interface ProcessedText {
 		prettifiedCode: string;
 		links: { url: string; text: string }[];
+		language: string;
 		textBeforeCode: string;
 		textAfterCode: string;
 	}
@@ -40,7 +41,7 @@
 				{@html text.textBeforeCode}
 				{#if text.prettifiedCode}
 					<div class="py-4">
-						<CodeBlock language="javascript" code={`${text.prettifiedCode}`} />
+						<CodeBlock language={text.language} code={`${text.prettifiedCode}`} />
 					</div>
 				{/if}
 				{#if text.textAfterCode} {@html text.textAfterCode} {/if}

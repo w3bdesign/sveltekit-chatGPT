@@ -9,10 +9,11 @@ import js_beautify from 'js-beautify';
  * links, and the text before and after the code block
  */
 export function processText(text: string) {
-	let codeRegex = /```javascript([\s\S]*?)```/;
+	let codeRegex = /```([\s\S]*?)\n([\s\S]*?)```/;
 	let codeMatch = text.match(codeRegex);
-	let code = codeMatch ? codeMatch[1] : '';
-	let prettifiedCode = js_beautify(code);
+	let language = codeMatch ? codeMatch[1] : '';
+	let code = codeMatch ? codeMatch[2] : '';
+	let prettifiedCode = language === 'javascript' ? js_beautify(code) : code;
 
 	let newText = text.replace(codeRegex, 'CODE_BLOCK');
 	let linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
@@ -21,13 +22,15 @@ export function processText(text: string) {
 		text: match[2]
 	}));
 	newText = newText.replace(linkRegex, '');
+
 	newText = newText.replace(
 		/`([^`]+)`/g,
 		'<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md">$1</code>'
 	);
+
 	let [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
 
-	return { prettifiedCode, links, textBeforeCode, textAfterCode };
+	return { language, prettifiedCode, links, textBeforeCode, textAfterCode };
 }
 
 /**
