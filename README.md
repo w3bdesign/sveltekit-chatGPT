@@ -5,7 +5,7 @@
  Web interface for GPT-4 with Sveltekit and Typescript.
  Skeleton and Tailwind CSS for styling.
  Animations with `svelte/transition`.
- Text formatting with js_beautify. 
+ Text formatting with `js_beautify`. 
 
 ## Getting started
 
