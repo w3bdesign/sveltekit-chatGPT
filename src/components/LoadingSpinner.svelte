@@ -3,9 +3,9 @@
 </script>
 
 {#if isLoading}
-	<div class="mt-6">
+	<div class="mt-8">
 		<svg
-			class="animate-spin h-10 w-10 text-blue-500"
+			class="animate-spin h-12 w-12 text-blue-500"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
