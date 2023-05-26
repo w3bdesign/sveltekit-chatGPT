@@ -1,4 +1,6 @@
 <script>
+	import { Toast } from '@skeletonlabs/skeleton';
+
 	import '../app.css';
 
 	// Your selected Skeleton theme:
@@ -10,3 +12,5 @@
 </script>
 
 <slot />
+
+<Toast />

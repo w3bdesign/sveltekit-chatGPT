@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { toastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
+
 	import Button from '../components/Button.svelte';
 	import ChatOutput from '../components/ChatOutput.svelte';
 	import LoadingSpinner from '../components/LoadingSpinner.svelte';
@@ -15,9 +18,18 @@
 
 	async function handleSubmit() {
 		isLoading = true;
-		const data = await getData(inputText, proxyURL, apiURL);
-		outputText = [...outputText, data];
-		inputText = '';
+		try {
+			const data = await getData(inputText, proxyURL, apiURL);
+			outputText = [...outputText, data];
+			inputText = '';
+		} catch (error) {
+			const t: ToastSettings = {
+				message: 'An error occurred while fetching data from GPT-4',
+				background: 'variant-filled-error',
+				timeout: 6000
+			};
+			toastStore.trigger(t);
+		}
 		isLoading = false;
 	}
 </script>
