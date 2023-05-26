@@ -37,7 +37,7 @@
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="Sveltekit - GPT4" />
-		<TextArea bind:value={inputText} />
+		<TextArea placeholder="Type something here to start ..." bind:value={inputText} />
 		<Button text="Submit" buttonAction={handleSubmit} />
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
