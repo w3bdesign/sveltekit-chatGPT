@@ -62,11 +62,13 @@
 					<div class="py-2">
 						<h2 class="text-xl py-4 font-bold text-center">Sources</h2>
 						{#each text.links as link}
-							<div class="py-1 px-2">
-								<a class="chip variant-filled w-full text-sm" href={link.url} target="_blank"
-									>{link.text}</a
-								>
-							</div>
+							{#if link.text}
+								<div class="py-1 px-2">
+									<a class="chip variant-filled w-full text-sm" href={link.url} target="_blank"
+										>{link.text}</a
+									>
+								</div>
+							{/if}
 						{/each}
 					</div>
 				{/if}
