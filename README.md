@@ -1,8 +1,11 @@
 ![Screenshot](https://user-images.githubusercontent.com/45217974/241082880-995617ca-74e5-4532-a9e1-07d1efe4dd98.png)
 
-# Sveltekit with chatGPT4
+# Sveltekit with GPT-4
 
- Web interface for GPT-4 with Sveltekit and Tailwind CSS for styling
+ Web interface for GPT-4 with Sveltekit and Typescript.
+ Skeleton and Tailwind CSS for styling.
+ Animations with `svelte/transition`.
+ Text formatting with js_beautify. 
 
 ## Getting started
 
