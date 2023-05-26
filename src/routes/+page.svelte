@@ -5,19 +5,17 @@
 	import TextArea from '../components/TextArea.svelte';
 	import Header from '../components/Header.svelte';
 
+	import { getData } from '../utils/functions/functions';
+
 	let inputText = '';
-	/**
-	 * @type {string[]}
-	 */
 	let outputText: string[] = [];
 	let isLoading = false;
 	const proxyURL = 'https://cors-proxy.fringe.zone/';
 	const apiURL = 'http://144.91.83.35:5500/';
 
-	async function getData() {
+	async function handleSubmit() {
 		isLoading = true;
-		const response = await fetch(`${proxyURL}${apiURL}?text=${encodeURIComponent(inputText)}`);
-		const data = await response.text();
+		const data = await getData(inputText, proxyURL, apiURL);
 		outputText = [...outputText, data];
 		inputText = '';
 		isLoading = false;
@@ -28,7 +26,7 @@
 	<div class="flex flex-col items-center">
 		<Header text="Sveltekit - GPT4" />
 		<TextArea bind:value={inputText} />
-		<Button text="Submit" buttonAction={getData} />
+		<Button text="Submit" buttonAction={handleSubmit} />
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
