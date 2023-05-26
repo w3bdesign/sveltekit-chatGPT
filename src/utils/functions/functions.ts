@@ -8,6 +8,7 @@ import js_beautify from 'js-beautify';
  * @return {Object} an object containing the prettified code block, an array of
  * links, and the text before and after the code block
  */
+
 export function processText(text: string) {
 	let codeRegex = /```javascript([\s\S]*?)```/;
 	let codeMatch = text.match(codeRegex);
@@ -21,6 +22,10 @@ export function processText(text: string) {
 		text: match[2]
 	}));
 	newText = newText.replace(linkRegex, '');
+	newText = newText.replace(
+		/`([^`]+)`/g,
+		'<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md">$1</code>'
+	);
 	let [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
 
 	return { prettifiedCode, links, textBeforeCode, textAfterCode };
@@ -35,8 +40,7 @@ export function processText(text: string) {
  * @return {Promise<string>} The data retrieved from the API.
  */
 export async function getData(inputText: string, proxyURL: string, apiURL: string) {
-    const response = await fetch(`${proxyURL}${apiURL}?text=${encodeURIComponent(inputText)}`);
-    const data = await response.text();
-    return data;
+	const response = await fetch(`${proxyURL}${apiURL}?text=${encodeURIComponent(inputText)}`);
+	const data = await response.text();
+	return data;
 }
-
