@@ -7,9 +7,9 @@
 		textAfterCode: string;
 	}
 
+	import { onMount } from 'svelte';
 	import hljs from 'highlight.js';
 	import { fade, fly } from 'svelte/transition';
-
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 
@@ -23,16 +23,14 @@
 
 	storeHighlightJs.set(hljs);
 
+	onMount(() => {
+		hljs.highlightAll();
+	});
+
 	$: {
 		processedTexts = outputText.map(processText);
 	}
 </script>
-
-<svelte:body
-	on:load={() => {
-		hljs.highlightAll();
-	}}
-/>
 
 {#each processedTexts as text (text.textBeforeCode)}
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
