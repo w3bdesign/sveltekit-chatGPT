@@ -10,7 +10,7 @@ Animations with `svelte/transition`.
 
 Code formatting with `js_beautify`.
 
-State management with Svelte store.
+State management with `svelte/store`.
 
 ## Getting started
 
