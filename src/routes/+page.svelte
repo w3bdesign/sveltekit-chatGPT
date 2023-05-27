@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { toastStore } from '@skeletonlabs/skeleton';
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+	
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	import Button from '../components/Button.svelte';
@@ -14,8 +11,8 @@
 
 	import { getData } from '../utils/functions/functions';
 
-	let inputText = '';
-	let outputText: string[] = [];
+	import textStore from '../store/store';
+
 	let isLoading = false;
 	const proxyURL = 'https://cors-proxy.fringe.zone/';
 	const apiURL = 'http://144.91.83.35:5500/';
@@ -23,9 +20,14 @@
 	async function handleSubmit() {
 		isLoading = true;
 		try {
-			const data = await getData(inputText, proxyURL, apiURL);
-			outputText = [...outputText, data];
-			inputText = '';
+			const data = await getData($textStore.inputText, proxyURL, apiURL);
+			textStore.update((text) => {
+				return {
+					...text,
+					outputText: [...text.outputText, data],
+					inputText: ''
+				};
+			});
 		} catch (error) {
 			const t: ToastSettings = {
 				message: 'An error occurred while fetching data from GPT-4',
@@ -43,16 +45,16 @@
 		<Header text="Sveltekit - GPT4" />
 		<TextArea
 			placeholder="Type something here to start ..."
-			bind:value={inputText}
+			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
 		<Button text="Submit" buttonAction={handleSubmit} />
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
-		{#if outputText.length}
+		{#if $textStore.outputText.length}
 			<div class="mt-4">
-				<ChatOutput {outputText} />
+				<ChatOutput />
 			</div>
 		{/if}
 	</div>
