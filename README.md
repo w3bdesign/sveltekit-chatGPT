@@ -12,6 +12,8 @@ Code formatting with `js_beautify`.
 
 State management with `svelte/store`.
 
+Custom 404 page with `@lottiefiles/svelte-lottie-player`.
+
 ## Getting started
 
 1. Install dependencies with `npm install`.
@@ -41,3 +43,4 @@ This project uses the following dependencies:
 - TailwindCSS
 - highlight.js
 - js-beautify
+- @lottiefiles/svelte-lottie-player
