@@ -11,6 +11,10 @@
 	});
 </script>
 
+<svelte:head>
+    <title>Not found - GPT4</title>
+</svelte:head>
+
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="Page not found - 404" />
