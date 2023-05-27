@@ -1,5 +1,9 @@
 <script lang="ts">
 	import { toastStore } from '@skeletonlabs/skeleton';
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	import Button from '../components/Button.svelte';
