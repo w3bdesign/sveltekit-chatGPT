@@ -13,11 +13,11 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 
+	import textStore from '../store/store';
+
 	import { processText } from '../utils/functions/functions';
 
 	import 'highlight.js/styles/github-dark.css';
-
-	export let outputText: string[] = [];
 
 	let processedTexts: ProcessedText[] = [];
 
@@ -28,7 +28,7 @@
 	});
 
 	$: {
-		processedTexts = outputText.map(processText);
+		processedTexts = $textStore.outputText.map(processText);
 	}
 </script>
 
