@@ -41,6 +41,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@lottiefiles/svelte-lottie-player": "^0.3.0",
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.7"
 	}

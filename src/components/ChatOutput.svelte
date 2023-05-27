@@ -35,7 +35,7 @@
 <div class="mt-4">
 	{#each processedTexts as text (text.textBeforeCode)}
 		<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
-			<div class="mt-2 border shadow-md rounded p-4 w-[20rem] md:w-[40rem] relative bg-slate-50">
+			<div class="mt-2 border shadow-md rounded p-4 w-[20rem] md:w-[45rem] relative bg-slate-50">
 				<div class="p-2">
 					{@html text.textBeforeCode}
 					{#if text.prettifiedCode}
