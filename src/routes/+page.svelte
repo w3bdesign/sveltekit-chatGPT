@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { toastStore } from '@skeletonlabs/skeleton';
-	
+
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	import Button from '../components/Button.svelte';
@@ -53,9 +53,7 @@
 			<LoadingSpinner {isLoading} />
 		{/if}
 		{#if $textStore.outputText.length}
-			<div class="mt-4">
-				<ChatOutput />
-			</div>
+			<ChatOutput />
 		{/if}
 	</div>
 </div>
