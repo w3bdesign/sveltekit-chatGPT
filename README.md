@@ -10,6 +10,8 @@ Animations with `svelte/transition`.
 
 Code formatting with `js_beautify`.
 
+State management with Svelte store.
+
 ## Getting started
 
 1. Install dependencies with `npm install`.
