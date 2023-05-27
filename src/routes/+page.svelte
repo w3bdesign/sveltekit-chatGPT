@@ -40,6 +40,10 @@
 	}
 </script>
 
+<svelte:head>
+    <title>Main - GPT4</title>
+</svelte:head>
+
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="Sveltekit - GPT4" />
