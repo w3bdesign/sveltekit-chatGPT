@@ -21,7 +21,7 @@
 		<div class="w-[20rem] md:w-[45rem] rounded shadow-md p-1 bg-white h-[25rem] md:h-[45rem]">
 			{#if LottiePlayer}
 				<LottiePlayer
-					src="https://assets4.lottiefiles.com/packages/lf20_zyu0ctqb.json"
+					src="/errorAnimation.json"
 					autoplay={true}
 					loop={true}
 					controls={false}
