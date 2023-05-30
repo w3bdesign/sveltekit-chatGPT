@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-    <title>Not found - GPT4</title>
+	<title>Not found - GPT4</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-center mt-6">
