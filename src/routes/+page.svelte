@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { toastStore } from '@skeletonlabs/skeleton';
-
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	import Button from '../components/Button.svelte';
@@ -9,18 +8,23 @@
 	import TextArea from '../components/TextArea.svelte';
 	import Header from '../components/Header.svelte';
 
-	import { getData } from '../utils/functions/functions';
-
 	import textStore from '../store/store';
 
 	let isLoading = false;
-	const proxyURL = 'https://cors-proxy.fringe.zone/';
-	const apiURL = 'http://144.91.83.35:5500/';
 
 	async function handleSubmit() {
 		isLoading = true;
 		try {
-			const data = await getData($textStore.inputText, proxyURL, apiURL);
+			const dataToSend = JSON.stringify($textStore.inputText);
+			const response = await fetch('/api/gpt', {
+				method: 'POST',
+				body: JSON.stringify(dataToSend),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			const data = await response.json();
 			textStore.update((text) => {
 				return {
 					...text,
