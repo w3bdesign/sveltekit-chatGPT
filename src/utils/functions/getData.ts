@@ -1,4 +1,3 @@
-//import { PUBLIC_API_KEY, PUBLIC_API_URL } from '$env/static/public';
 import { SECRET_API_KEY, SECRET_API_URL } from '$env/static/private';
 
 export async function getData(request: string) {
