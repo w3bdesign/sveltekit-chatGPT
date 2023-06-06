@@ -6,37 +6,37 @@ export function parseTextAndCodeBlocks(text: string) {
 	const blocks = [];
 	let lastIndex = 0;
 	let match;
-  
+
 	while ((match = regex.exec(text)) !== null) {
-	  // Add a text block before the code block
-	  if (lastIndex !== match.index) {
-		blocks.push({
-		  type: 'text',
-		  content: text.slice(lastIndex, match.index),
-		});
-	  }
-  
-	  if (match[1]) {
-		// Triple backticks
-		blocks.push({ type: 'code', inline: false, language: match[1], code: match[2] });
-	  } else if (match[3]) {
-		// Single backtick
-		blocks.push({ type: 'code', inline: true, language: 'plaintext', code: match[3] });
-	  }
-  
-	  lastIndex = regex.lastIndex;
+		// Add a text block before the code block
+		if (lastIndex !== match.index) {
+			blocks.push({
+				type: 'text',
+				content: text.slice(lastIndex, match.index)
+			});
+		}
+
+		if (match[1]) {
+			// Triple backticks
+			blocks.push({ type: 'code', inline: false, language: match[1], code: match[2] });
+		} else if (match[3]) {
+			// Single backtick
+			blocks.push({ type: 'code', inline: true, language: 'plaintext', code: match[3] });
+		}
+
+		lastIndex = regex.lastIndex;
 	}
-  
+
 	// Add the remaining text block after the last code block
 	if (lastIndex < text.length) {
-	  blocks.push({
-		type: 'text',
-		content: text.slice(lastIndex),
-	  });
+		blocks.push({
+			type: 'text',
+			content: text.slice(lastIndex)
+		});
 	}
-  
+
 	return blocks;
-  }
+}
 
 /**
  * Processes a given text by extracting and prettifying JavaScript code blocks,
@@ -48,8 +48,7 @@ export function parseTextAndCodeBlocks(text: string) {
  */
 export function processText(text: string) {
 	return { content: text };
-  }
-
+}
 
 /**
  * Retrieves data from an API using input text and proxy and API URLs.
