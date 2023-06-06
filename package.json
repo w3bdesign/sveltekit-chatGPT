@@ -43,6 +43,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^3.0.1",
 		"highlight.js": "^11.8.0",
-		"js-beautify": "^1.14.8"
+		"js-beautify": "^1.14.8",
+		"openai": "^3.2.1"
 	}
 }
