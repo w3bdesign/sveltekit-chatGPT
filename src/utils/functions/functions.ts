@@ -47,29 +47,9 @@ export function parseTextAndCodeBlocks(text: string) {
  * links, and the text before and after the code block
  */
 export function processText(text: string) {
-	const codeRegex = /```([\s\S]*?)\n([\s\S]*?)```/;
-	const codeMatch = text.match(codeRegex);
-	const language = codeMatch ? codeMatch[1] : '';
-	const code = codeMatch ? codeMatch[2] : '';
-	const prettifiedCode = language === 'javascript' ? js_beautify(code) : code;
+	return { content: text };
+  }
 
-	let newText = text.replace(codeRegex, 'CODE_BLOCK');
-	const linkRegex = /\[\d+\]:\s*(.+?)\s*"(.*?)"\s*/g;
-	const links = [...newText.matchAll(linkRegex)].map((match) => ({
-		url: match[1],
-		text: match[2]
-	}));
-	newText = newText.replace(linkRegex, '');
-
-	/*newText = newText.replace(
-		/`([^`]+)`/g,
-		'<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md">$1</code>'
-	);*/
-
-	const [textBeforeCode, textAfterCode] = newText.split('CODE_BLOCK');
-
-	return { language, prettifiedCode, links, textBeforeCode, textAfterCode };
-}
 
 /**
  * Retrieves data from an API using input text and proxy and API URLs.
