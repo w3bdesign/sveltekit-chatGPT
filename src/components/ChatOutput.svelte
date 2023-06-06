@@ -11,6 +11,8 @@
 		content?: string;
 	}
 
+	import type { ChatCompletionRequestMessage } from 'openai';
+
 	import { onMount } from 'svelte';
 	import hljs from 'highlight.js';
 	import { fade, fly } from 'svelte/transition';
@@ -23,7 +25,7 @@
 
 	import 'highlight.js/styles/github-dark.css';
 
-	let processedItems: { text: ProcessedText; code: ProcessedCode[] }[] = [];
+	let processedItems: { text: ChatCompletionRequestMessage; code: ProcessedCode[] }[] = [];
 
 	storeHighlightJs.set(hljs);
 
@@ -33,10 +35,17 @@
 
 	$: {
 		processedItems = $textStore.outputText.map((text) => {
-			const processedText = processText(text);
-			const processedCode = parseTextAndCodeBlocks(text);
+			const content = text.choices[0].delta.content;
+			const processedText = processText(content);
+			// get the content from the delta object
+			console.log('processedText', processedText);
+			const processedCode = parseTextAndCodeBlocks(content);
+			console.log('processedCode', processedCode);
 			return { text: processedText, code: processedCode };
 		});
+
+		console.log('processedItems', processedItems);
+		console.log('$textStore.outputText:', $textStore.outputText);
 	}
 </script>
 

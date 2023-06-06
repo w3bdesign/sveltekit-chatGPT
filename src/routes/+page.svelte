@@ -10,33 +10,67 @@
 
 	import textStore from '../store/store';
 
-	import { getData } from '../utils/functions/getData';
+	import { SSE } from 'sse.js';
 
 	let isLoading = false;
 
 	async function handleSubmit() {
 		isLoading = true;
 		try {
-			const dataToSend = JSON.stringify($textStore.inputText);
-			const response = await getData(dataToSend);
+			const inputText = $textStore.inputText;
 
-			const data = await response.json();
-			textStore.update((text) => {
-				return {
-					...text,
-					outputText: [...text.outputText, data],
-					inputText: ''
+			// Initialize the SSE connection
+			const eventSource = new SSE('/api/gpt', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            payload: JSON.stringify({ messages: [{ role: 'user', content: inputText }] })
+        });
+
+			// Handle errors
+			eventSource.addEventListener('error', () => {
+				isLoading = false;
+				const t: ToastSettings = {
+					message: 'An error occurred while fetching data from GPT-4',
+					background: 'variant-filled-error',
+					timeout: 6000
 				};
+				toastStore.trigger(t);
 			});
+
+			// Handle messages from the server
+			eventSource.addEventListener('message', (e: { data: string }) => {
+				isLoading = false;
+				try {
+					const data = JSON.parse(e.data);
+					textStore.update((text) => {
+						return {
+							...text,
+							outputText: [...text.outputText, data],
+							inputText: ''
+						};
+					});
+				} catch (error) {
+					const t: ToastSettings = {
+						message: 'An error occurred while parsing data from GPT-4',
+						background: 'variant-filled-error',
+						timeout: 6000
+					};
+					toastStore.trigger(t);
+				}
+			});
+
+			// Start streaming data
+			eventSource.stream();
 		} catch (error) {
+			isLoading = false;
 			const t: ToastSettings = {
-				message: 'An error occurred while fetching data from GPT-4',
+				message: 'An error occurred while connecting to GPT-4',
 				background: 'variant-filled-error',
 				timeout: 6000
 			};
 			toastStore.trigger(t);
 		}
-		isLoading = false;
 	}
 </script>
 
