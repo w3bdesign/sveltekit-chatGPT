@@ -50,7 +50,7 @@
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
-		<Header text="Sveltekit - GPT4" />
+		<Header text="GPT-4 Chat" />
 		<TextArea
 			placeholder="Type something here to start ..."
 			bind:value={$textStore.inputText}
