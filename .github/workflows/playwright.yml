@@ -21,7 +21,8 @@ jobs:
         run: npx playwright test
         env:
           CI: true
-          # NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+          SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
+          SECRET_API_URL: ${{ secrets.SECRET_API_URL }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:

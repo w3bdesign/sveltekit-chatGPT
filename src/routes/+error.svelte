@@ -1,35 +1,16 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import Header from '../components/Header.svelte';
-
-	let LottiePlayer: ConstructorOfATypedSvelteComponent;
-
-	onMount(async () => {
-		const module = await import('@lottiefiles/svelte-lottie-player');
-		LottiePlayer = module.LottiePlayer;
-	});
 </script>
 
 <svelte:head>
-    <title>Not found - GPT4</title>
+	<title>Not found - GPT4</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="Page not found - 404" />
 		<div class="w-[20rem] md:w-[45rem] rounded shadow-md p-1 bg-white h-[25rem] md:h-[45rem]">
-			{#if LottiePlayer}
-				<LottiePlayer
-					src="/errorAnimation.json"
-					autoplay={true}
-					loop={true}
-					controls={false}
-					renderer="svg"
-					background="transparent"
-					height={700}
-				/>
-			{/if}
+			<img src="/notfound.svg" alt="404" />
 		</div>
 	</div>
 </div>
