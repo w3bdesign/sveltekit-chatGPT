@@ -40,8 +40,7 @@
 		"vitest": "^0.31.4"
 	},
 	"type": "module",
-	"dependencies": {
-		"axios": "^1.4.0",
+	"dependencies": {		
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.8"
 	}
