@@ -13,36 +13,47 @@
 	let isLoading = false;
 
 	async function handleSubmit() {
-		isLoading = true;
-		try {
-			const dataToSend = JSON.stringify($textStore.inputText);
-			const response = await fetch('/api/gpt', {
-				method: 'POST',
-				body: JSON.stringify(dataToSend),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
+    isLoading = true;
+    let retries = 3;
+    let success = false;
 
-			const data = await response.json();
-			textStore.update((text) => {
-				return {
-					...text,
-					outputText: [...text.outputText, data],
-					inputText: ''
-				};
-			});
-		} catch (error) {
-			const t: ToastSettings = {
-				message: 'An error occurred while fetching data from GPT-4',
-				background: 'variant-filled-error',
-				timeout: 6000
-			};
-			toastStore.trigger(t);
-		}
-		isLoading = false;
-	}
+    while (retries > 0 && !success) {
+        try {
+            const dataToSend = JSON.stringify($textStore.inputText);
+            const response = await fetch('/api/gpt', {
+                method: 'POST',
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            textStore.update((text) => {
+                return {
+                    ...text,
+                    outputText: [...text.outputText, data],
+                    inputText: ''
+                };
+            });
+            success = true;
+        } catch (error) {
+            retries--;
+            if (retries === 0) {
+                const t: ToastSettings = {
+                    message: 'An error occurred while fetching data from GPT-4',
+                    background: 'variant-filled-error',
+                    timeout: 6000
+                };
+                toastStore.trigger(t);
+            }
+        }
+    }
+
+    isLoading = false;
+}
 </script>
+
 
 <svelte:head>
 	<title>Main - GPT4</title>
