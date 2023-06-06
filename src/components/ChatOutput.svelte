@@ -23,8 +23,7 @@
 
 	import 'highlight.js/styles/github-dark.css';
 
-	let processedTexts: ProcessedText[] = [];
-	let processedCode: ProcessedCode[] = [];
+	let processedItems: { text: ProcessedText; code: ProcessedCode[] }[] = [];
 
 	storeHighlightJs.set(hljs);
 
@@ -33,19 +32,19 @@
 	});
 
 	$: {
-		processedTexts = $textStore.outputText.map(processText);
-	}
-
-	$: {
-		processedCode = $textStore.outputText.map(parseTextAndCodeBlocks).flat();
+		processedItems = $textStore.outputText.map((text) => {
+			const processedText = processText(text);
+			const processedCode = parseTextAndCodeBlocks(text);
+			return { text: processedText, code: processedCode };
+		});
 	}
 </script>
 
 <div class="mt-6">
-	{#each processedTexts as text}
+	{#each processedItems as item}
 		<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 			<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
-				{#each processedCode as block}
+				{#each item.code as block}
 					{#if block.type === 'code'}
 						{#if block.inline}
 							<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"
