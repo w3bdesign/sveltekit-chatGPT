@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Index page has expected h1 text', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { name: 'Sveltekit - GPT4' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'GPT-4 Chat' })).toBeVisible();
 });
 
 test('We get text back when we click the button', async ({ page }) => {
