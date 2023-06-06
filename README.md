@@ -43,4 +43,3 @@ This project uses the following dependencies:
 - TailwindCSS
 - highlight.js
 - js-beautify
-- @lottiefiles/svelte-lottie-player
