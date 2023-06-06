@@ -10,19 +10,15 @@
 
 	import textStore from '../store/store';
 
+	import { getData } from '../utils/functions/getData';
+
 	let isLoading = false;
 
 	async function handleSubmit() {
 		isLoading = true;
 		try {
 			const dataToSend = JSON.stringify($textStore.inputText);
-			const response = await fetch('/api/gpt', {
-				method: 'POST',
-				body: JSON.stringify(dataToSend),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
+			const response = await getData(dataToSend);
 
 			const data = await response.json();
 			textStore.update((text) => {
