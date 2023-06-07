@@ -3,8 +3,9 @@ import { writable } from 'svelte/store';
 interface TextStore {
 	inputText: string;
 	outputText: string[];
+	questions: any[];
 }
 
-const textStore = writable<TextStore>({ inputText: '', outputText: [] });
+export const textStore = writable<TextStore>({ inputText: '', outputText: [], questions: [] });
 
 export default textStore;

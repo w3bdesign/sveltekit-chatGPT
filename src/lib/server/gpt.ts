@@ -1,10 +1,8 @@
-import { PUBLIC_API_KEY, PUBLIC_API_URL } from '$env/static/public';
-
-import type { RequestEvent } from '@sveltejs/kit';
+import { SECRET_API_KEY, SECRET_API_URL } from '$env/static/private';
 
 export async function getData(request: string) {
-	const apiKey = PUBLIC_API_KEY;
-	const url = PUBLIC_API_URL;
+	const apiKey = SECRET_API_KEY;
+	const url = SECRET_API_URL;
 	let responseJson;
 	let responseContent;
 
