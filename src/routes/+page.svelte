@@ -1,16 +1,17 @@
 <script lang="ts">
+	import { SSE } from 'sse.js';
 	import { toastStore } from '@skeletonlabs/skeleton';
+
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
-	import Button from '../components/Button.svelte';
-	import ChatOutput from '../components/ChatOutput.svelte';
-	import LoadingSpinner from '../components/LoadingSpinner.svelte';
-	import TextArea from '../components/TextArea.svelte';
-	import Header from '../components/Header.svelte';
+	import Button from '$components/Button.svelte';
+	import ChatOutput from '$components/ChatOutput.svelte';
+	import LoadingSpinner from '$components/LoadingSpinner.svelte';
+	import TextArea from '$components/TextArea.svelte';
+	import Header from '$components/Header.svelte';
 
-	import textStore from '../store/store';
-	import { SSE } from 'sse.js';
-	import { addQuestionAndAssociateOutput } from '../store/storeHelpers';
+	import textStore from '$store/store';
+	import { addQuestionAndAssociateOutput } from '$store/storeHelpers';
 
 	let isLoading = false;
 

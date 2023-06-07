@@ -2,7 +2,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-	import { processTextAndCodeBlocks } from '../utils/functions/functions';
+	import { processTextAndCodeBlocks } from '$utils/functions/functions';
 
 	export let data: any;
 </script>
