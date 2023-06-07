@@ -15,6 +15,11 @@
 
 	let isLoading = false;
 
+	/**
+	 * Initialize a Server-Sent Events (SSE) connection to an API endpoint and listens for events from the server.
+	 * When a message is received, the update the text output, add a new question, and sets the loading flag to false:
+	 * It also triggers a toast message if any errors occur during the process.
+	 */
 	async function handleSubmit() {
 		isLoading = true;
 		try {
@@ -40,8 +45,25 @@
 			});
 
 			// Handle messages from the server
-			eventSource.addEventListener('message', (e: { data: string }) => {
+			eventSource.addEventListener('message', (e: { data: any }) => {
 				isLoading = false;
+				const data = JSON.parse(e.data);
+
+				// This code adds a new question and clears input text if the first choice of some parsed data has a finish reason of "stop".
+				if (data.choices[0].finish_reason === 'stop') {
+					const questions = $textStore.questions;
+					let questionId = questions.length + 1;
+					addQuestionAndAssociateOutput(questionId, $textStore.outputText);
+
+					// Clear input text
+					textStore.update((text) => {
+						return {
+							...text,
+							inputText: ''
+						};
+					});
+				}
+
 				try {
 					const data = JSON.parse(e.data);
 					textStore.update((text) => {
@@ -57,23 +79,6 @@
 						timeout: 6000
 					};
 					toastStore.trigger(t);
-				}
-			});
-
-			// Check when the messages are loaded, then add a new question
-			eventSource.addEventListener('readystatechange', (e: { readyState: number }) => {
-				if (e.readyState === 2) {
-					const questions = $textStore.questions;
-					let questionId = questions.length + 1;
-					addQuestionAndAssociateOutput(questionId, $textStore.outputText);
-
-					// Clear input text
-					textStore.update((text) => {
-						return {
-							...text,
-							inputText: ''
-						};
-					});
 				}
 			});
 
