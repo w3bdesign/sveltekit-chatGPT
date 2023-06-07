@@ -8,9 +8,9 @@
 	import TextArea from '../components/TextArea.svelte';
 	import Header from '../components/Header.svelte';
 
-	import textStore, { addQuestionAndAssociateOutput } from '../store/store';
-
+	import textStore from '../store/store';
 	import { SSE } from 'sse.js';
+	import { addQuestionAndAssociateOutput } from '../store/storeHelpers';
 
 	let isLoading = false;
 
@@ -46,8 +46,7 @@
 					textStore.update((text) => {
 						return {
 							...text,
-							outputText: [...text.outputText, data],
-							inputText: ''
+							outputText: [...text.outputText, data]
 						};
 					});
 				} catch (error) {
@@ -60,11 +59,20 @@
 				}
 			});
 
+			// Check when the messages are loaded, then add a new question
 			eventSource.addEventListener('readystatechange', (e: { readyState: number }) => {
 				if (e.readyState === 2) {
 					const questions = $textStore.questions;
 					let questionId = questions.length + 1;
 					addQuestionAndAssociateOutput(questionId, $textStore.outputText);
+
+					// Clear input text
+					textStore.update((text) => {
+						return {
+							...text,
+							inputText: ''
+						};
+					});
 				}
 			});
 
