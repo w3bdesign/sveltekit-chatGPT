@@ -9,19 +9,17 @@ interface TextStore {
 const textStore = writable<TextStore>({ inputText: '', outputText: [], questions: [] });
 
 export function addQuestionAndAssociateOutput(questionId: number, outputText: any[]) {
-	textStore.update(store => {
-	  const newQuestion = {
-		id: questionId,
-		outputText: outputText
-	  };
-  
-	  store.questions.push(newQuestion);
-	  store.outputText = [];
-  
-	  return store;
+	textStore.update((store) => {
+		const newQuestion = {
+			id: questionId,
+			outputText: outputText
+		};
+
+		store.questions.push(newQuestion);
+		store.outputText = [];
+
+		return store;
 	});
-  }
-
-
+}
 
 export default textStore;

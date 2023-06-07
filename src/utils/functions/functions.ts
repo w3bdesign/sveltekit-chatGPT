@@ -69,7 +69,7 @@ export function processText(text: string) {
 }
 
 export function processTextAndCodeBlocks(deltas: ChatCompletionChunk[]) {
-	console.log('deltas', deltas);
+	
 
 	let content = ''; // initialize an empty string
 	for (let delta of deltas) {
@@ -109,7 +109,15 @@ export function processTextAndCodeBlocks(deltas: ChatCompletionChunk[]) {
 		});
 	}
 
-	return blocks;
+	// Remove the string "undefined" from blocks
+	const cleanedBlocks = blocks.map((block) => {
+		if (block.content) {
+			block.content = block.content.replace('undefined', '');
+		}
+		return block;
+	});
+
+	return cleanedBlocks;
 }
 
 /**

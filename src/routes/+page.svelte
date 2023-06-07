@@ -100,12 +100,8 @@
 			<LoadingSpinner {isLoading} />
 		{/if}
 
-		{#if $textStore.outputText.length}
-			Streaming: <ChatOutput data={$textStore.outputText} />
-		{/if}
-
 		{#each $textStore.questions as question (question.id)}
-			Non-streaming: <ChatOutput data={question.outputText} />
+			<ChatOutput data={question.outputText} />
 		{/each}
 	</div>
 </div>

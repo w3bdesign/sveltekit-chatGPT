@@ -28,7 +28,6 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 
 		const prompt = '';
-		//'You are a virtual assistant for a company called Huntabyte. Your name is Axel Smith'
 
 		const messages: ChatCompletionRequestMessage[] = [
 			{ role: 'system', content: prompt },

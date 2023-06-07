@@ -1,16 +1,13 @@
-<!-- ChatOutput.svelte -->
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { CodeBlock } from '@skeletonlabs/skeleton';
-	import textStore from '../store/store';
+
 	import { processTextAndCodeBlocks } from '../utils/functions/functions';
 
-	export let data: any
-
-	console.log("DAta", data)
+	export let data: any;
 </script>
 
-<div class="flex flex-col items-center justify-center mt-6">
+<div class="flex flex-col items-center justify-center">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
 			{#each processTextAndCodeBlocks(data) as block}
