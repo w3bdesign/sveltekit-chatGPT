@@ -4,12 +4,16 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import textStore from '../store/store';
 	import { processTextAndCodeBlocks } from '../utils/functions/functions';
+
+	export let data: any
+
+	console.log("DAta", data)
 </script>
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
-			{#each processTextAndCodeBlocks($textStore.outputText) as block}
+			{#each processTextAndCodeBlocks(data) as block}
 				{#if block.type === 'code'}
 					{#if block.inline}
 						<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"

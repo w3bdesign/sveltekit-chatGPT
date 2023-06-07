@@ -8,7 +8,7 @@
 	import TextArea from '../components/TextArea.svelte';
 	import Header from '../components/Header.svelte';
 
-	import textStore from '../store/store';
+	import textStore, { addQuestionAndAssociateOutput } from '../store/store';
 
 	import { SSE } from 'sse.js';
 
@@ -21,11 +21,11 @@
 
 			// Initialize the SSE connection
 			const eventSource = new SSE('/api/gpt', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            payload: JSON.stringify({ messages: [{ role: 'user', content: inputText }] })
-        });
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				payload: JSON.stringify({ messages: [{ role: 'user', content: inputText }] })
+			});
 
 			// Handle errors
 			eventSource.addEventListener('error', () => {
@@ -60,6 +60,14 @@
 				}
 			});
 
+			eventSource.addEventListener('readystatechange', (e: { readyState: number }) => {
+				if (e.readyState === 2) {
+					const questions = $textStore.questions;
+					let questionId = questions.length + 1;
+					addQuestionAndAssociateOutput(questionId, $textStore.outputText);
+				}
+			});
+
 			// Start streaming data
 			eventSource.stream();
 		} catch (error) {
@@ -87,11 +95,17 @@
 			{handleSubmit}
 		/>
 		<Button text="Submit" buttonAction={handleSubmit} />
+
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
+
 		{#if $textStore.outputText.length}
-			<ChatOutput />
+			Streaming: <ChatOutput data={$textStore.outputText} />
 		{/if}
+
+		{#each $textStore.questions as question (question.id)}
+			Non-streaming: <ChatOutput data={question.outputText} />
+		{/each}
 	</div>
 </div>
