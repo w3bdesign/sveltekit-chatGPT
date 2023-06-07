@@ -1,7 +1,5 @@
 import { SECRET_API_KEY, SECRET_API_URL } from '$env/static/private';
 
-// https://github.com/jmagrippis/hello-there
-
 export async function getData(request: string) {
 	const apiKey = SECRET_API_KEY;
 	const url = SECRET_API_URL;

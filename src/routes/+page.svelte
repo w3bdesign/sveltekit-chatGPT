@@ -91,6 +91,7 @@
 		<Header text="GPT-4 Chat" />
 		<TextArea
 			placeholder="Type something here to start ..."
+			{isLoading}
 			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
