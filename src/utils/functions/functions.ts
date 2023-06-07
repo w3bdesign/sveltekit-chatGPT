@@ -18,6 +18,15 @@ interface Delta {
 	content: string;
 }
 
+/**
+ * Processes an array of ChatCompletionChunk objects to extract text and code blocks.
+ *
+ * @param {ChatCompletionChunk[]} deltas - An array of ChatCompletionChunk objects.
+ * @return {Object[]} An array of objects representing text and code blocks. Each object contains a 'type' property
+ * with a value of 'text' or 'code', an 'inline' property with a value of true or false depending on whether the code
+ * block is inline, a 'language' property with a string value indicating the language of the code block, and a 'code'
+ * property with a string value containing the code block itself. The array is cleaned to remove the string "undefined".
+ */
 export function processTextAndCodeBlocks(deltas: ChatCompletionChunk[]) {
 	let content = ''; // initialize an empty string
 	for (let delta of deltas) {
