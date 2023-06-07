@@ -46,10 +46,12 @@
 
 			// Handle messages from the server
 			eventSource.addEventListener('message', (e: { data: any }) => {
-				isLoading = false;
+				
 				const data = JSON.parse(e.data);
 
-				// This code adds a new question and clears input text if the first choice of some parsed data has a finish reason of "stop".
+				console.log("Data:", data)
+
+				// Add a new question and clears input text if the first choice of some parsed data has a finish reason of "stop".
 				if (data.choices[0].finish_reason === 'stop') {
 					const questions = $textStore.questions;
 					let questionId = questions.length + 1;
@@ -62,6 +64,8 @@
 							inputText: ''
 						};
 					});
+
+					isLoading = false;
 				}
 
 				try {
