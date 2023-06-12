@@ -35,9 +35,10 @@ export const POST: RequestHandler = async ({ request }) => {
 		];
 
 		const chatRequestOpts: CreateChatCompletionRequest = {
-			model: 'gpt-4',
+			//model: 'gpt-4',
+			model: 'gpt-3.5-turbo',
 			messages,
-			temperature: 0.9,
+			temperature: 0.7,
 			stream: true
 		};
 
