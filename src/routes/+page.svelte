@@ -103,7 +103,7 @@
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
-		<Header text="GPT-4 Chat" />
+		<Header text="chatGPT Chat" />
 		<TextArea
 			placeholder="Type something here to start ..."
 			{isLoading}
