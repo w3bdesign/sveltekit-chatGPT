@@ -46,10 +46,7 @@
 
 			// Handle messages from the server
 			eventSource.addEventListener('message', (e: { data: any }) => {
-				
 				const data = JSON.parse(e.data);
-
-				console.log("Data:", data)
 
 				// Add a new question and clears input text if the first choice of some parsed data has a finish reason of "stop".
 				if (data.choices[0].finish_reason === 'stop') {
@@ -101,12 +98,12 @@
 </script>
 
 <svelte:head>
-	<title>Main - GPT4</title>
+	<title>Main - chatGPT</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
-		<Header text="GPT-4 Chat" />
+		<Header text="chatGPT Chat" />
 		<TextArea
 			placeholder="Type something here to start ..."
 			{isLoading}
