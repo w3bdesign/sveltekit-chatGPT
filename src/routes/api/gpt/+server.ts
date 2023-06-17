@@ -9,7 +9,7 @@ export const config: Config = {
 	runtime: 'edge'
 };
 
-export const POST: RequestHandler = async ({ request }:  Request) => {
+export const POST: RequestHandler = async ({ request }: Request) => {
 	try {
 		if (!SECRET_API_KEY) {
 			throw new Error('OPENAI_KEY env variable not set');
