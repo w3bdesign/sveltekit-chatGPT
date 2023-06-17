@@ -1,6 +1,6 @@
 import { SECRET_API_KEY, SECRET_API_URL } from '$env/static/private';
 import type { CreateChatCompletionRequest, ChatCompletionRequestMessage } from 'openai';
-import type { RequestHandler } from './$types';
+import type { Request, RequestHandler } from './$types';
 
 import { json } from '@sveltejs/kit';
 import type { Config } from '@sveltejs/adapter-vercel';
@@ -9,7 +9,7 @@ export const config: Config = {
 	runtime: 'edge'
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }:  Request) => {
 	try {
 		if (!SECRET_API_KEY) {
 			throw new Error('OPENAI_KEY env variable not set');
@@ -38,7 +38,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			//model: 'gpt-4',
 			model: 'gpt-3.5-turbo-16k-0613',
 			messages,
-			temperature: 0.7,
+			temperature: 0.1,
 			stream: true
 		};
 
