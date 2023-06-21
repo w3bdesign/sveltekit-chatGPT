@@ -36,7 +36,8 @@ export const POST: RequestHandler = async ({ request }: Request) => {
 
 		const chatRequestOpts: CreateChatCompletionRequest = {
 			//model: 'gpt-4',
-			model: 'gpt-3.5-turbo-16k-0613',
+			//model: 'gpt-3.5-turbo-16k-0613',
+			model: 'gpt-4-poe',
 			messages,
 			temperature: 0.1,
 			stream: true
@@ -62,7 +63,7 @@ export const POST: RequestHandler = async ({ request }: Request) => {
 			}
 		});
 	} catch (err) {
-		console.error(err);
+		console.error('Error: ', err);
 		return json({ error: 'There was an error processing your request' }, { status: 500 });
 	}
 };
