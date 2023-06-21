@@ -1,8 +1,8 @@
 ![Screenshot](https://user-images.githubusercontent.com/45217974/241093530-7db014ce-7246-40a6-84af-649ea3aa41e4.png)
 
-# Sveltekit with GPT-3.5 turbo
+# Sveltekit with GPT-4
 
-Web interface for GPT-3.5 turbo with Sveltekit and Typescript.
+Web interface for GPT-4 with Sveltekit and Typescript.
 
 Skeleton and Tailwind CSS for styling.
 
