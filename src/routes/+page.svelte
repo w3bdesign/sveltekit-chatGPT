@@ -98,12 +98,12 @@
 </script>
 
 <svelte:head>
-	<title>Main - chatGPT</title>
+	<title>Main - GPT-4 Chat</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
-		<Header text="chatGPT Chat" />
+		<Header text="GPT-4 Chat" />
 		<TextArea
 			placeholder="Type something here to start ..."
 			{isLoading}
