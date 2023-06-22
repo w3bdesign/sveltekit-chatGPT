@@ -14,7 +14,8 @@ export async function getData(request: string) {
 	};
 
 	const data = {
-		model: 'gpt-4',
+		//model: 'gpt-4',
+		model: 'gpt-4-0613',
 		messages: [{ role: 'user', content: inputData }]
 	};
 
