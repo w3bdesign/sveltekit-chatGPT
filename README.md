@@ -38,5 +38,5 @@ This project uses the following dependencies:
 - Playwright
 - Skeleton
 - TypeScript
-- TailwindCSS
+- Tailwind CSS
 - highlight.js
