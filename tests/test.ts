@@ -29,16 +29,5 @@ test('GPT Chat and text submission', async ({ page }) => {
 	// Check if there is at least one output message container
 	const outputMessageContainer = await page.getByTestId('ai-response-container');
 
-	// Capture a screenshot
-	await page.screenshot({ path: 'screenshot_success.png', fullPage: true });
-
-	// Check the display property of the output message container
-	const containerDisplayStyle = await outputMessageContainer.evaluate((el) =>
-		window.getComputedStyle(el).getPropertyValue('display')
-	);
-
-	console.log('containerDisplayStyle:', containerDisplayStyle);
-	console.log('outputMessageContainer', outputMessageContainer);
-
-	expect(containerDisplayStyle).not.toEqual('none');
+	expect(outputMessageContainer).toBeVisible;
 });
