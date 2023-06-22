@@ -7,7 +7,7 @@
 	export let data: any;
 </script>
 
-<div class="flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center" data-testid="ai-response-container">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
 			{#each processTextAndCodeBlocks(data) as block}
