@@ -111,11 +111,9 @@
 			{handleSubmit}
 		/>
 		<Button text="Submit" buttonAction={handleSubmit} />
-
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
-
 		{#each $textStore.questions as question (question.id)}
 			<ChatOutput data={question.outputText} />
 		{/each}
