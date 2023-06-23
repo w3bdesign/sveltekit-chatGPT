@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { CodeBlock } from '@skeletonlabs/skeleton';
+	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 
 	import { processTextAndCodeBlocks } from '$utils/functions/functions';
 
+	import hljs from 'highlight.js';
+	import 'highlight.js/styles/github-dark.css';
+
 	export let data: any;
+
+	storeHighlightJs.set(hljs);
 </script>
 
 <div class="flex flex-col items-center justify-center" data-testid="ai-response-container">
