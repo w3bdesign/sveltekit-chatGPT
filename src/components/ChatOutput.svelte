@@ -70,23 +70,39 @@
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
 			<div class="w-full flex justify-end">
-				<Button buttonAction={copyToClipboard} text="Copy" />
+				<Button buttonAction={copyToClipboard} buttonType="filled-secondary" buttonWidth="4rem">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						height="24"
+						width="24"
+					>
+						<path
+							xmlns="http://www.w3.org/2000/svg"
+							d="M2 4C2 2.89543 2.89543 2 4 2H14C15.1046 2 16 2.89543 16 4V8H20C21.1046 8 22 8.89543 22 10V20C22 21.1046 21.1046 22 20 22H10C8.89543 22 8 21.1046 8 20V16H4C2.89543 16 2 15.1046 2 14V4ZM10 16V20H20V10H16V14C16 15.1046 15.1046 16 14 16H10ZM14 14V4L4 4V14H14Z"
+							fill="#fff"
+						/>
+					</svg>
+				</Button>
 			</div>
-			{#each processTextAndCodeBlocks(data) as block}
-				{#if block.type === 'code'}
-					{#if block.inline}
-						<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"
-							>{block.code}</code
-						>
+			<div class="text-left">
+				{#each processTextAndCodeBlocks(data) as block}
+					{#if block.type === 'code'}
+						{#if block.inline}
+							<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"
+								>{block.code}</code
+							>
+						{:else}
+							<div class="py-6 px-2">
+								<CodeBlock language={block.language} code={`${block.code}`} />
+							</div>
+						{/if}
 					{:else}
-						<div class="py-6 px-2">
-							<CodeBlock language={block.language} code={`${block.code}`} />
-						</div>
+						{@html block.content}
 					{/if}
-				{:else}
-					{@html block.content}
-				{/if}
-			{/each}
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>

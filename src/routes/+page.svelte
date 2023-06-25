@@ -110,7 +110,7 @@
 			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
-		<Button text="Submit" buttonAction={handleSubmit} />
+		<div class="py-4"><Button buttonAction={handleSubmit} buttonType="filled">Submit</Button></div>
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}

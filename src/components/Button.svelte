@@ -1,12 +1,13 @@
 <script lang="ts">
-	export let text = '';
 	export let buttonAction = () => {};
+	export let buttonType = 'filled';
+	export let buttonWidth = '8rem';
 </script>
 
 <button
 	type="button"
-	class="btn variant-filled py-2 mb-6  w-[8rem]"
+	class={`btn variant-${buttonType} py-2 mb-6 w-[${buttonWidth}]`}
 	on:click={buttonAction}
 >
-	{text}
+	<slot />
 </button>
