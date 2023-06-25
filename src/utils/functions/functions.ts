@@ -1,20 +1,19 @@
-//import js_beautify from 'js-beautify';
-
-interface ChatCompletionChunk {
-	id: string;
-	object: string;
-	created: number;
-	model: string;
+interface CompletionChunk {
 	choices: Choice[];
+	created: number;
+	id: string;
+	model: string;
+	object: string;
 }
 
 interface Choice {
-	delta: Delta;
 	index: number;
 	finish_reason?: string;
+	delta: Delta;
 }
 
 interface Delta {
+	role: string;
 	content: string;
 }
 
@@ -27,7 +26,7 @@ interface Delta {
  * block is inline, a 'language' property with a string value indicating the language of the code block, and a 'code'
  * property with a string value containing the code block itself. The array is cleaned to remove the string "undefined".
  */
-export function processTextAndCodeBlocks(deltas: ChatCompletionChunk[]) {
+export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 	let content = ''; // initialize an empty string
 	for (let delta of deltas) {
 		// loop over the array of objects
@@ -67,12 +66,10 @@ export function processTextAndCodeBlocks(deltas: ChatCompletionChunk[]) {
 	}
 
 	// Remove the string "undefined" from blocks
-	const cleanedBlocks = blocks.map((block) => {
-		if (block.content) {
-			block.content = block.content.replace('undefined', '');
-		}
-		return block;
-	});
-
-	return cleanedBlocks;
+	return blocks.map((block) => {
+ 		if (block.content) {
+ 			block.content = block.content.replace('undefined', '');
+ 		}
+ 		return block;
+ 	});
 }

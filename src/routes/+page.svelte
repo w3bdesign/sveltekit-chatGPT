@@ -36,12 +36,12 @@
 			// Handle errors
 			eventSource.addEventListener('error', () => {
 				isLoading = false;
-				const t: ToastSettings = {
+				const toast: ToastSettings = {
 					message: 'An error occurred while fetching data from GPT-4',
 					background: 'variant-filled-error',
 					timeout: 6000
 				};
-				toastStore.trigger(t);
+				toastStore.trigger(toast);
 			});
 
 			// Handle messages from the server
@@ -74,12 +74,12 @@
 						};
 					});
 				} catch (error) {
-					const t: ToastSettings = {
+					const toast: ToastSettings = {
 						message: 'An error occurred while parsing data from GPT-4',
 						background: 'variant-filled-error',
 						timeout: 6000
 					};
-					toastStore.trigger(t);
+					toastStore.trigger(toast);
 				}
 			});
 
@@ -87,12 +87,12 @@
 			eventSource.stream();
 		} catch (error) {
 			isLoading = false;
-			const t: ToastSettings = {
+			const toast: ToastSettings = {
 				message: 'An error occurred while connecting to GPT-4',
 				background: 'variant-filled-error',
 				timeout: 6000
 			};
-			toastStore.trigger(t);
+			toastStore.trigger(toast);
 		}
 	}
 </script>
@@ -110,7 +110,7 @@
 			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
-		<Button text="Submit" buttonAction={handleSubmit} />
+		<div class="py-4"><Button buttonAction={handleSubmit} buttonType="filled">Submit</Button></div>
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
