@@ -67,9 +67,9 @@ export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 
 	// Remove the string "undefined" from blocks
 	return blocks.map((block) => {
- 		if (block.content) {
- 			block.content = block.content.replace('undefined', '');
- 		}
- 		return block;
- 	});
+		if (block.content) {
+			block.content = block.content.replace('undefined', '');
+		}
+		return block;
+	});
 }
