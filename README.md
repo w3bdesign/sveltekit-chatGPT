@@ -8,8 +8,6 @@ Skeleton and Tailwind CSS for styling.
 
 Animations with `svelte/transition`.
 
-Code formatting with `js_beautify`.
-
 State management with `svelte/store`.
 
 ## Getting started
