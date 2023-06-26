@@ -68,7 +68,7 @@
 
 <div class="flex flex-col items-center justify-center" data-testid="ai-response-container">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
-		<div class="border shadow-md rounded p-8 w-[20rem] md:w-[45rem] relative bg-slate-50">
+		<div class="border shadow-md rounded p-2 w-[20rem] md:w-[45rem] relative bg-slate-50">
 			<div class="w-full flex justify-end">
 				<Button buttonAction={copyToClipboard} buttonType="filled-secondary" buttonWidth="4rem">
 					<svg
@@ -86,7 +86,7 @@
 					</svg>
 				</Button>
 			</div>
-			<div class="text-left">
+			<div class="p-2 mb-4 ml-4">
 				{#each processTextAndCodeBlocks(data) as block}
 					{#if block.type === 'code'}
 						{#if block.inline}
