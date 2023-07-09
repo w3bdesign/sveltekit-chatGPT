@@ -34,10 +34,10 @@ export const POST: RequestHandler = async ({ request }: Request) => {
 			...reqMessages
 		];
 
+		const requestModel: string = requestData.model || 'gpt-4';
+
 		const chatRequestOpts: CreateChatCompletionRequest = {
-			model: 'gpt-4',
-			//model: 'gpt-3.5-turbo-16k-0613',
-			//model: 'gpt-4-poe',
+			model: requestModel,
 			messages,
 			temperature: 0.1,
 			stream: true

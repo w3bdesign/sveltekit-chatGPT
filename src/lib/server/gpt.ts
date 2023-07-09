@@ -1,6 +1,13 @@
 import { SECRET_API_KEY, SECRET_API_URL } from '$env/static/private';
 
-export async function getData(request: string) {
+/**
+ * Retrieves data from an API using the provided request and model.
+ *
+ * @param {string} request - The request to send to the API.
+ * @param {string} model - The model to use for processing the request.
+ * @return {Promise<Response>} A Promise that resolves to the API response.
+ */
+export async function getData(request: string, model: string) {
 	const apiKey = SECRET_API_KEY;
 	const url = SECRET_API_URL;
 	let responseJson;
@@ -14,8 +21,7 @@ export async function getData(request: string) {
 	};
 
 	const data = {
-		//model: 'gpt-4',
-		model: 'gpt-4-0613',
+		model,
 		messages: [{ role: 'user', content: inputData }]
 	};
 

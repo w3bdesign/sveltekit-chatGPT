@@ -12,8 +12,10 @@
 
 	import textStore from '$store/store';
 	import { addQuestionAndAssociateOutput } from '$store/storeHelpers';
+	import ModelSelect from '$components/ModelSelect.svelte';
 
 	let isLoading = false;
+	let selectedModel = '';
 
 	/**
 	 * Initialize a Server-Sent Events (SSE) connection to an API endpoint and listens for events from the server.
@@ -30,7 +32,10 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				payload: JSON.stringify({ messages: [{ role: 'user', content: inputText }] })
+				payload: JSON.stringify({
+					messages: [{ role: 'user', content: inputText }],
+					model: selectedModel
+				})
 			});
 
 			// Handle errors
@@ -110,7 +115,10 @@
 			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
-		<div class="py-4"><Button buttonAction={handleSubmit} buttonType="filled">Submit</Button></div>
+		<ModelSelect bind:selectedModel />
+		<div class="mt-6 py-2">
+			<Button buttonAction={handleSubmit} buttonType="filled">Submit</Button>
+		</div>
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
