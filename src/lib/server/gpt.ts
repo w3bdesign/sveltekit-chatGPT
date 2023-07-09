@@ -35,7 +35,7 @@ export async function getData(request: string, model: string) {
 		responseJson = await response.json();
 		responseContent = responseJson.choices[0].message.content;
 	} catch (error) {
-		console.error('Error fetching chat response:', error);
+		console.error('Error fetching chat response:');
 	}
 
 	return new Response(JSON.stringify(responseContent), {
