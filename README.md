@@ -10,6 +10,8 @@ Animations with `svelte/transition`.
 
 State management with `svelte/store`.
 
+Choose which chat language model to use, which is dynamically populated on page load. 
+
 ## Getting started
 
 1. Install dependencies with `npm install`.
