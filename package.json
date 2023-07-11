@@ -42,7 +42,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-vercel": "^3.0.1",
+		"@sveltejs/adapter-vercel": "^3.0.2",
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.8",
 		"openai": "^3.3.0",
