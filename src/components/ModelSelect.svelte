@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { CHATMODELS } from '../constants/CHATMODELS';
-	
 
 	export let selectedModel = 'gpt-4';
 
