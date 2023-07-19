@@ -14,6 +14,9 @@
 	onMount(async () => {
 		try {
 			const fetchedModels = await fetchAvailableModels();
+
+			selectedModel = models[0].id;
+
 			if (fetchedModels.length > 0) {
 				models = fetchedModels;
 				selectedModel = models[0].id;
@@ -29,6 +32,7 @@
 		try {
 			const response = await fetch('/api/models');
 			const data = await response.json();
+
 			return data;
 		} catch (error) {
 			console.error('Error fetching models');
