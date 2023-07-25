@@ -1,4 +1,4 @@
-![Screenshot](https://user-images.githubusercontent.com/45217974/248916127-63a37d43-38af-46dd-9dd8-0f1d65ef5d08.png)
+![Screenshot](https://user-images.githubusercontent.com/45217974/256060509-9d3454e6-e133-4603-b185-133a7d710dea.png)
 
 # Sveltekit with GPT-4
 
