@@ -14,5 +14,9 @@ export const CHATMODELS = [
 	{
 		id: 'llama-2-70b-chat',
 		name: 'llama-2-70b-chat'
+	},
+	{
+		id: 'claude-2-100k',
+		name: 'claude-2-100k'
 	}
 ];
