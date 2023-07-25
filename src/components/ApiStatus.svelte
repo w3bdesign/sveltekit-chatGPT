@@ -1,66 +1,81 @@
 <script lang="ts">
 	import { SSE } from 'sse.js';
 	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { writable, derived } from 'svelte/store';
 
 	let statusMessage = writable('Connecting to API');
 	let showAlert = writable(true);
 
-	const checkApiConnection = async () => {
-		let isResponseReceived = false;
-		try {
-			const eventSource = new SSE('/api/gpt', {
-				headers: { 'Content-Type': 'application/json' },
-				payload: JSON.stringify({
-					messages: [{ role: 'user', content: 'Hello' }],
-					model: 'gpt-4'
-				})
-			});
+	const statusToClass = new Map([
+		['Connected to API', 'variant-filled-primary'],
+		['Connecting to API', 'variant-filled-surface'],
+		['Connection failed', 'variant-filled-warning'],
+		['default', 'variant-filled-error']
+	]);
 
-			eventSource.addEventListener('error', async (event: any) => {
-				console.error('Error event:', event);
-				statusMessage.set('Failed to connect to API');
-				isResponseReceived = true;
-				eventSource.close();
-			});
+	let alertClass = derived(statusMessage, ($statusMessage) => {
+		for (let [key, value] of statusToClass.entries()) {
+			if ($statusMessage.startsWith(key)) {
+				return value;
+			}
+		}
 
-			eventSource.addEventListener('message', async (event: { data: any }) => {
-				console.log('Message event data:', event.data);
-				statusMessage.set('Connected to API');
-				isResponseReceived = true;
-				eventSource.close();
-			});
+		return statusToClass.get('default');
+	});
 
-			await eventSource.stream();
-		} catch (error) {
-			console.error('Exception:', error);
-			statusMessage.set('Failed to connect to API');
-			await updateAlert();
+	const checkApiConnection = async (retries = 3) => {
+		for (let i = 0; i < retries; i++) {
+			let isResponseReceived = false;
+			try {
+				const eventSource = new SSE('/api/gpt', {
+					headers: { 'Content-Type': 'application/json' },
+					payload: JSON.stringify({
+						messages: [{ role: 'user', content: 'Hello' }],
+						model: 'gpt-4'
+					})
+				});
+
+				eventSource.addEventListener('error', async (event: any) => {
+					isResponseReceived = true;
+					eventSource.close();
+					if (i === retries - 1) {
+						statusMessage.set('Failed to connect to API');
+					} else {
+						statusMessage.set(`Connection failed. Retrying (${i + 1}/${retries})...`);
+					}
+				});
+
+				eventSource.addEventListener('message', async () => {
+					statusMessage.set('Connected to API');
+					isResponseReceived = true;
+					eventSource.close();
+				});
+
+				await eventSource.stream();
+				if (isResponseReceived) {
+					break;
+				}
+			} catch (error) {
+				if (i === retries - 1) {
+					statusMessage.set('Failed to connect to API');
+				} else {
+					statusMessage.set(`Connection failed. Retrying (${i + 2}/${retries})...`);
+				}
+			}
+			// Wait for 2 seconds before retrying
+			await new Promise((resolve) => setTimeout(resolve, 2000));
 		}
 	};
 
 	onMount(() => {
 		checkApiConnection();
 	});
-
-	const updateAlert = async () => {
-		// Hide the alert
-		showAlert.set(false);
-		// Wait for the hide transition to complete
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		// Show the alert again
-		showAlert.set(true);
-	};
 </script>
 
 <div
-	class="alert w-full mt-1 mb-5 transition-opacity duration-200
-        {$statusMessage === 'Connected to API'
-		? 'variant-filled-primary'
-		: $statusMessage === 'Connecting to API'
-		? 'variant-filled-warning'
-		: 'variant-filled-error'}
-        {$showAlert ? 'opacity-100' : 'opacity-0'}"
+	class="alert w-full mt-1 mb-5 transition-opacity duration-200 {$alertClass} {$showAlert
+		? 'opacity-100'
+		: 'opacity-0'}"
 >
 	<p class="text-center mx-auto">{$statusMessage}</p>
 </div>
