@@ -1,4 +1,10 @@
 <script lang="ts">
+	/**
+	 * This Svelte component is designed to display and interact with completion data from a model.
+	 * It includes features like copying the completion data to the clipboard and highlighting code blocks within the data.
+	 *
+	 */
+
 	interface Delta {
 		role: string;
 		content: string;
