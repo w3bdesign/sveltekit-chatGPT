@@ -35,7 +35,7 @@
 					})
 				});
 
-				eventSource.addEventListener('error', async (event: any) => {
+				eventSource.addEventListener('error', async () => {
 					isResponseReceived = true;
 					eventSource.close();
 					if (i === retries - 1) {
