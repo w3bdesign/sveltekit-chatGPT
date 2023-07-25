@@ -13,15 +13,13 @@
 	import textStore from '$store/store';
 	import { addQuestionAndAssociateOutput } from '$store/storeHelpers';
 	import ModelSelect from '$components/ModelSelect.svelte';
+	import ApiStatus from '$components/ApiStatus.svelte';
 
 	let isLoading = false;
 	let selectedModel = '';
+	const MAX_RETRY_COUNT = 3;
+	let retryCount = 0;
 
-	/**
-	 * Initialize a Server-Sent Events (SSE) connection to an API endpoint and listens for events from the server.
-	 * When a message is received, the update the text output, add a new question, and sets the loading flag to false:
-	 * It also triggers a toast message if any errors occur during the process.
-	 */
 	async function handleSubmit() {
 		isLoading = true;
 		try {
@@ -38,28 +36,40 @@
 				})
 			});
 
-			// Handle errors
-			eventSource.addEventListener('error', () => {
-				isLoading = false;
-				const toast: ToastSettings = {
-					message: 'An error occurred while fetching data from GPT-4',
-					background: 'variant-filled-error',
-					timeout: 6000
-				};
-				toastStore.trigger(toast);
+			// Handle errors and retries
+			eventSource.addEventListener('error', async () => {
+				if (retryCount < MAX_RETRY_COUNT) {
+					retryCount++;
+					const retryToast: ToastSettings = {
+						message: `Error occurred. Retrying... (${retryCount}/${MAX_RETRY_COUNT})`,
+						background: 'variant-filled-warning',
+						timeout: 2000
+					};
+					toastStore.trigger(retryToast);
+					await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
+					setTimeout(handleSubmit, 2000); // Add delay before calling handleSubmit again
+				} else {
+					await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds before showing the error toast
+					isLoading = false;
+					const toast: ToastSettings = {
+						message: 'An error occurred while fetching data from the API',
+						background: 'variant-filled-error',
+						timeout: 6000
+					};
+					toastStore.trigger(toast);
+				}
 			});
 
 			// Handle messages from the server
 			eventSource.addEventListener('message', (e: { data: any }) => {
+				retryCount = 0; // Reset retry count on successful message
 				const data = JSON.parse(e.data);
 
-				// Add a new question and clears input text if the first choice of some parsed data has a finish reason of "stop".
 				if (data.choices[0].finish_reason === 'stop') {
 					const questions = $textStore.questions;
 					let questionId = questions.length + 1;
 					addQuestionAndAssociateOutput(questionId, $textStore.outputText);
 
-					// Clear input text
 					textStore.update((text) => {
 						return {
 							...text,
@@ -88,7 +98,6 @@
 				}
 			});
 
-			// Start streaming data
 			eventSource.stream();
 		} catch (error) {
 			isLoading = false;
@@ -109,6 +118,7 @@
 <div class="flex flex-col items-center justify-center mt-6">
 	<div class="flex flex-col items-center">
 		<Header text="GPT-4 Chat" />
+		<ApiStatus />
 		<TextArea
 			placeholder="Type something here to start ..."
 			{isLoading}
