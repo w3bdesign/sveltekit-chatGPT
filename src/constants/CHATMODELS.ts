@@ -10,5 +10,9 @@ export const CHATMODELS = [
 	{
 		id: 'gpt-3.5-turbo-16k',
 		name: 'gpt-3.5-turbo-16k'
+	},
+	{
+		id: 'llama-2-70b-chat',
+		name: 'llama-2-70b-chat'
 	}
 ];
