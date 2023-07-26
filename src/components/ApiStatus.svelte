@@ -89,7 +89,7 @@
 </script>
 
 <div
-	class="alert w-full mt-1 mb-5 transition-opacity duration-200 {$alertClass} {$showAlert
+	class="alert w-full md:w-[45rem] mt-1 mb-5 transition-opacity duration-200 {$alertClass} {$showAlert
 		? 'opacity-100'
 		: 'opacity-0'}"
 >

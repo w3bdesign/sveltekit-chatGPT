@@ -15,7 +15,7 @@
 	import ModelSelect from '$components/ModelSelect.svelte';
 	import ApiStatus from '$components/ApiStatus.svelte';
 
-	const MAX_RETRY_COUNT = 3;
+	const MAX_RETRY_COUNT = 5;
 	let isLoading = false;
 	let selectedModel = '';
 
@@ -117,29 +117,27 @@
 	<title>Main - GPT-4 Chat</title>
 </svelte:head>
 
-<div class="flex flex-col items-center justify-center mt-6">
-	<div class="flex flex-col items-center">
-		<Header text="GPT-4 Chat" />
-		<ApiStatus />
-		<form id="gptform" on:submit|preventDefault={handleSubmit}>
-			<label for="gptChatBox" class="text-sm mb-2">Input:</label>
-			<TextArea
-				id="gptChatBox"
-				placeholder="Type something here to start ..."
-				{isLoading}
-				bind:value={$textStore.inputText}
-				{handleSubmit}
-			/>
-			<div class="flex mt-4 mb-8">
-				<Button buttonType="filled" {isDisabled}>Submit</Button>
-				<ModelSelect bind:selectedModel />
-			</div>
-		</form>
-		{#if isLoading}
-			<LoadingSpinner {isLoading} />
-		{/if}
-		{#each $textStore.questions as question (question.id)}
-			<ChatOutput data={question.outputText} />
-		{/each}
-	</div>
+<div class="flex flex-col items-center justify-center mt-6 p-4">
+	<Header text="GPT-4 Chat" />
+	<ApiStatus />
+	<form id="gptform" on:submit|preventDefault={handleSubmit}>
+		<label for="gptChatBox" class="text-sm mb-2">Input:</label>
+		<TextArea
+			id="gptChatBox"
+			placeholder="Type something here to start ..."
+			{isLoading}
+			bind:value={$textStore.inputText}
+			{handleSubmit}
+		/>
+		<div class="flex mt-4 mb-8">
+			<Button buttonType="filled" {isDisabled}>Submit</Button>
+			<ModelSelect bind:selectedModel />
+		</div>
+	</form>
+	{#if isLoading}
+		<LoadingSpinner {isLoading} />
+	{/if}
+	{#each $textStore.questions as question (question.id)}
+		<ChatOutput data={question.outputText} />
+	{/each}
 </div>
