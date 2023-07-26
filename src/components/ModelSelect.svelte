@@ -42,8 +42,9 @@
 </script>
 
 <div class="w-full flex justify-end">
-	<span class="text-lg py-2 px-4">Model: </span>
+	<label for="model" class="text-lg py-2 px-4">Model:</label>
 	<select
+		id="model"
 		bind:value={selectedModel}
 		class="bg-white text-black border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 	>

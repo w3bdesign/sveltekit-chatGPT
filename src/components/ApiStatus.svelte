@@ -10,6 +10,9 @@
 	let statusMessage = writable('Connecting to API');
 	let showAlert = writable(true);
 
+	let isConnected = false;
+	let wasEverConnected = false;
+
 	const statusToClass = new Map([
 		['Connected to API', 'variant-filled-primary'],
 		['Connecting to API', 'variant-filled-surface'],
@@ -27,9 +30,8 @@
 		return statusToClass.get('default');
 	});
 
-	const checkApiConnection = async (retries = 3) => {
+	const checkApiConnection = async (retries = 10) => {
 		for (let i = 0; i < retries; i++) {
-			let isResponseReceived = false;
 			try {
 				const eventSource = new SSE('/api/gpt', {
 					headers: { 'Content-Type': 'application/json' },
@@ -39,29 +41,39 @@
 					})
 				});
 
-				eventSource.addEventListener('error', async () => {
-					isResponseReceived = true;
+				eventSource.addEventListener('open', async () => {
+					isConnected = true;
+					wasEverConnected = true;
+					statusMessage.set('Connected to API');
 					eventSource.close();
-					if (i === retries - 1) {
-						statusMessage.set('Failed to connect to API');
-					} else {
-						statusMessage.set(`Connection failed. Retrying (${i + 1}/${retries})...`);
+				});
+
+				eventSource.addEventListener('error', async () => {
+					eventSource.close();
+					if (!isConnected) {
+						if (i === retries - 1) {
+							statusMessage.set(
+								wasEverConnected
+									? 'Lost connection to API. Please try refreshing the page.'
+									: 'Failed to connect to API. Please try refreshing the page.'
+							);
+						} else {
+							statusMessage.set(`Connection failed. Retrying (${i + 1}/${retries})...`);
+						}
 					}
 				});
 
-				eventSource.addEventListener('message', async () => {
-					statusMessage.set('Connected to API');
-					isResponseReceived = true;
-					eventSource.close();
-				});
-
 				await eventSource.stream();
-				if (isResponseReceived) {
+				if (isConnected) {
 					break;
 				}
 			} catch (error) {
 				if (i === retries - 1) {
-					statusMessage.set('Failed to connect to API');
+					statusMessage.set(
+						wasEverConnected
+							? 'Lost connection to API. Please try refreshing the page.'
+							: 'Failed to connect to API. Please try refreshing the page.'
+					);
 				} else {
 					statusMessage.set(`Connection failed. Retrying (${i + 2}/${retries})...`);
 				}

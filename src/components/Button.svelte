@@ -6,12 +6,13 @@
 	export let buttonAction = () => {};
 	export let buttonType = 'filled';
 	export let buttonWidth = '8rem';
+	export let isDisabled = false;
 </script>
 
 <button
-	type="button"
-	class={`btn variant-${buttonType} py-2 mb-6 w-[${buttonWidth}]`}
-	on:click={buttonAction}
+	type="submit"
+	class={`btn variant-${buttonType} py-2 w-[${buttonWidth}]`}
+	disabled={isDisabled}
 >
 	<slot />
 </button>
