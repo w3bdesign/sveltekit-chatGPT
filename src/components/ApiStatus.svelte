@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isValidJSON } from '$utils/functions/functions';
 	/**
 	 * Provide a visual feedback to the user about the state of the connection using a status alert.
 	 */
@@ -41,11 +42,24 @@
 					})
 				});
 
-				eventSource.addEventListener('open', async () => {
-					isConnected = true;
-					wasEverConnected = true;
-					statusMessage.set('Connected to API');
-					eventSource.close();
+				eventSource.addEventListener('message', (event: MessageEvent) => {
+					try {
+						// Check if event.data exists, is not an empty string and is valid JSON
+						if (event.data && event.data.trim() !== '' && isValidJSON(event.data)) {
+							// Parse the event data as JSON
+							const data = JSON.parse(event.data);
+
+							// Check if 'finish_reason' is 'stop', indicating end of data from server
+							if (data.choices && data.choices[0].finish_reason === 'stop') {
+								isConnected = true;
+								wasEverConnected = true;
+								statusMessage.set('Connected to API');
+								eventSource.close();
+							}
+						}
+					} catch (error) {
+						console.error('Error parsing JSON:', error);
+					}
 				});
 
 				eventSource.addEventListener('error', async () => {
@@ -89,7 +103,7 @@
 </script>
 
 <div
-	class="alert w-full mt-1 mb-5 transition-opacity duration-200 {$alertClass} {$showAlert
+	class="alert w-full md:w-[45rem] mt-1 mb-5 transition-opacity duration-200 {$alertClass} {$showAlert
 		? 'opacity-100'
 		: 'opacity-0'}"
 >
