@@ -121,14 +121,16 @@
 	<div class="flex flex-col items-center">
 		<Header text="GPT-4 Chat" />
 		<ApiStatus />
-		<form on:submit|preventDefault={handleSubmit}>
+		<form id="gptform" on:submit|preventDefault={handleSubmit}>
+			<label for="gptChatBox" class="text-sm mb-2">Input:</label>
 			<TextArea
+				id="gptChatBox"
 				placeholder="Type something here to start ..."
 				{isLoading}
 				bind:value={$textStore.inputText}
 				{handleSubmit}
 			/>
-			<div class="flex mt-2 mb-2">
+			<div class="flex mt-4 mb-8">
 				<Button buttonType="filled" {isDisabled}>Submit</Button>
 				<ModelSelect bind:selectedModel />
 			</div>
