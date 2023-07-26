@@ -73,3 +73,18 @@ export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 		return block;
 	});
 }
+
+/**
+ * Checks if a given string is a valid JSON.
+ *
+ * @param {string} jsonString - The string to be checked if it is a valid JSON.
+ * @return {boolean} Returns true if the string is a valid JSON, otherwise returns false.
+ */
+export function isValidJSON(jsonString: string): boolean {
+	try {
+		JSON.parse(jsonString);
+		return true;
+	} catch {
+		return false;
+	}
+}
