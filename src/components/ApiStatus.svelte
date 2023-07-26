@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { isValidJSON } from '$utils/functions/functions';
 	/**
 	 * Provide a visual feedback to the user about the state of the connection using a status alert.
 	 */
-
 	import { SSE } from 'sse.js';
 	import { onMount } from 'svelte';
 	import { writable, derived } from 'svelte/store';
+
+	import { isValidJSON } from '$utils/functions/functions';
 
 	let statusMessage = writable('Connecting to API');
 	let showAlert = writable(true);
