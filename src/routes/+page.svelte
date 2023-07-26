@@ -15,10 +15,12 @@
 	import ModelSelect from '$components/ModelSelect.svelte';
 	import ApiStatus from '$components/ApiStatus.svelte';
 
+	const MAX_RETRY_COUNT = 3;
 	let isLoading = false;
 	let selectedModel = '';
-	const MAX_RETRY_COUNT = 3;
+
 	let retryCount = 0;
+	$: isDisabled = $textStore.inputText.length === 0;
 
 	async function handleSubmit() {
 		isLoading = true;
@@ -119,16 +121,18 @@
 	<div class="flex flex-col items-center">
 		<Header text="GPT-4 Chat" />
 		<ApiStatus />
-		<TextArea
-			placeholder="Type something here to start ..."
-			{isLoading}
-			bind:value={$textStore.inputText}
-			{handleSubmit}
-		/>
-		<ModelSelect bind:selectedModel />
-		<div class="mt-6 py-2">
-			<Button buttonAction={handleSubmit} buttonType="filled">Submit</Button>
-		</div>
+		<form on:submit|preventDefault={handleSubmit}>
+			<TextArea
+				placeholder="Type something here to start ..."
+				{isLoading}
+				bind:value={$textStore.inputText}
+				{handleSubmit}
+			/>
+			<div class="flex mt-2 mb-2">
+				<Button buttonType="filled" {isDisabled}>Submit</Button>
+				<ModelSelect bind:selectedModel />
+			</div>
+		</form>
 		{#if isLoading}
 			<LoadingSpinner {isLoading} />
 		{/if}
