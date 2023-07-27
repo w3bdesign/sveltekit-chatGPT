@@ -72,7 +72,7 @@
 	}
 </script>
 
-<div class="w-full" data-testid="ai-response-container">
+<div class="w-full sm:w-auto" data-testid="ai-response-container">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-2 w-full md:w-[45rem] relative bg-white">
 			<div class="w-full flex justify-end">
