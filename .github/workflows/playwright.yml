@@ -24,6 +24,7 @@ jobs:
           SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
           SECRET_API_URL: ${{ secrets.SECRET_API_URL }}
           SECRET_API_MODELS: ${{ secrets.SECRET_API_MODELS }}
+          SECRET_STATUS_URL: ${{ secrets.SECRET_STATUS_URL }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:

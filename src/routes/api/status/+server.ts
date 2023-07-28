@@ -1,5 +1,6 @@
-import { SECRET_STATUS_URL } from '$env/static/private';
 import { json } from '@sveltejs/kit';
+
+import { SECRET_STATUS_URL } from '$env/static/private';
 
 import type { RequestHandler } from './$types';
 import type { Config } from '@sveltejs/adapter-vercel';
