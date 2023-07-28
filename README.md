@@ -10,7 +10,7 @@ Animations with `svelte/transition`.
 
 State management with `svelte/store`.
 
-Choose which chat language model to use, which is dynamically populated on page load.
+Choose which chat language model to use.
 
 ## Getting started
 

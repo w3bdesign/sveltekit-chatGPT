@@ -2,11 +2,12 @@
 	/**
 	 * Provide a visual feedback to the user about the state of the connection using a status alert.
 	 */
-	import { SSE } from 'sse.js';
+
 	import { onMount } from 'svelte';
 	import { writable, derived } from 'svelte/store';
 
-	import { isValidJSON } from '$utils/functions/functions';
+	const API_STATUS_URL = '/api/status';
+	const CHAT_COMPLETIONS_ENDPOINT = '/api/v1/chat/completions';
 
 	let statusMessage = writable('Connecting to API');
 	let showAlert = writable(true);
@@ -22,6 +23,10 @@
 	]);
 
 	let alertClass = derived(statusMessage, ($statusMessage) => {
+		if ($statusMessage.startsWith('Connected to')) {
+			return 'variant-filled-primary';
+		}
+
 		for (let [key, value] of statusToClass.entries()) {
 			if ($statusMessage.startsWith(key)) {
 				return value;
@@ -34,52 +39,37 @@
 	const checkApiConnection = async (retries = 10) => {
 		for (let i = 0; i < retries; i++) {
 			try {
-				const eventSource = new SSE('/api/gpt', {
-					headers: { 'Content-Type': 'application/json' },
-					payload: JSON.stringify({
-						messages: [{ role: 'user', content: 'Hello' }],
-						model: 'gpt-4'
-					})
-				});
+				const response = await fetch(API_STATUS_URL);
 
-				eventSource.addEventListener('message', (event: MessageEvent) => {
-					try {
-						// Check if event.data exists, is not an empty string and is valid JSON
-						if (event.data && event.data.trim() !== '' && isValidJSON(event.data)) {
-							// Parse the event data as JSON
-							const data = JSON.parse(event.data);
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
 
-							// Check if 'finish_reason' is 'stop', indicating end of data from server
-							if (data.choices && data.choices[0].finish_reason === 'stop') {
-								isConnected = true;
-								wasEverConnected = true;
-								statusMessage.set('Connected to API');
-								eventSource.close();
-							}
-						}
-					} catch (error) {
-						console.error('Error parsing JSON:', error);
+				const result = await response.json();
+
+				// Check if CHAT_COMPLETIONS_ENDPOINT is working
+				if (
+					result.endpoints &&
+					result.endpoints[CHAT_COMPLETIONS_ENDPOINT] &&
+					result.endpoints[CHAT_COMPLETIONS_ENDPOINT].works
+				) {
+					isConnected = true;
+					wasEverConnected = true;
+
+					// Extract the model name from the status string
+					const modelNameMatch =
+						result.endpoints[CHAT_COMPLETIONS_ENDPOINT].status.match(/\[(.*?)\]/);
+
+					if (modelNameMatch) {
+						const modelName = modelNameMatch[1];
+						statusMessage.set(`Connected to ${modelName.toUpperCase()}`);
+					} else {
+						statusMessage.set('Connected to API');
 					}
-				});
 
-				eventSource.addEventListener('error', async () => {
-					eventSource.close();
-					if (!isConnected) {
-						if (i === retries - 1) {
-							statusMessage.set(
-								wasEverConnected
-									? 'Lost connection to API. Please try refreshing the page.'
-									: 'Failed to connect to API. Please try refreshing the page.'
-							);
-						} else {
-							statusMessage.set(`Connection failed. Retrying (${i + 1}/${retries})...`);
-						}
-					}
-				});
-
-				await eventSource.stream();
-				if (isConnected) {
 					break;
+				} else {
+					statusMessage.set(`The ${CHAT_COMPLETIONS_ENDPOINT} endpoint is not working`);
 				}
 			} catch (error) {
 				if (i === retries - 1) {
@@ -91,9 +81,10 @@
 				} else {
 					statusMessage.set(`Connection failed. Retrying (${i + 2}/${retries})...`);
 				}
+
+				// Wait for 2 seconds before retrying
+				await new Promise((resolve) => setTimeout(resolve, 2000));
 			}
-			// Wait for 2 seconds before retrying
-			await new Promise((resolve) => setTimeout(resolve, 2000));
 		}
 	};
 
