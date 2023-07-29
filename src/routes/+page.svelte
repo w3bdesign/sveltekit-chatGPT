@@ -16,10 +16,11 @@
 	import ApiStatus from '$components/ApiStatus.svelte';
 
 	const MAX_RETRY_COUNT = 5;
+
 	let isLoading = false;
 	let selectedModel = '';
-
 	let retryCount = 0;
+
 	$: isDisabled = $textStore.inputText.length === 0;
 
 	async function handleSubmit() {
@@ -135,7 +136,7 @@
 		</div>
 	</form>
 	{#if isLoading}
-		<LoadingSpinner  {isLoading} />
+		<LoadingSpinner {isLoading} />
 	{/if}
 	{#each $textStore.questions as question (question.id)}
 		<ChatOutput data={question.outputText} />
