@@ -40,3 +40,4 @@ This project uses the following dependencies:
 - TypeScript
 - Tailwind CSS
 - highlight.js
+- @testing-library/svelte
