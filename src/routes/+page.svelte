@@ -120,7 +120,7 @@
 <div class="flex flex-col items-center justify-center mt-6 p-4">
 	<Header text="GPT-4 Chat" />
 	<ApiStatus />
-	<form id="gptform" on:submit|preventDefault={handleSubmit}>
+	<form data-testid="gptform" id="gptform" on:submit|preventDefault={handleSubmit}>
 		<label for="gptChatBox" class="text-sm mb-2">Input:</label>
 		<TextArea
 			id="gptChatBox"
@@ -135,7 +135,7 @@
 		</div>
 	</form>
 	{#if isLoading}
-		<LoadingSpinner {isLoading} />
+		<LoadingSpinner  {isLoading} />
 	{/if}
 	{#each $textStore.questions as question (question.id)}
 		<ChatOutput data={question.outputText} />
