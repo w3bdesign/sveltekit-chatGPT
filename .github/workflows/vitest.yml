@@ -1,31 +1,25 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Runs All Unit tests
-
+name: Vitest Unit Tests
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main, develop]
-
+    branches: [main, master, develop]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+  test:
+    timeout-minutes: 60
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      #- run: npm run build --if-present
-      - name: Execute Unit tests
-      - run: npm ci
-	    - run: npm run test:unit
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Run Unit tests
+        run: npm run test:unit
+        env:
+          CI: true
+          SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
+          SECRET_API_URL: ${{ secrets.SECRET_API_URL }}
+          SECRET_API_MODELS: ${{ secrets.SECRET_API_MODELS }}
+          SECRET_STATUS_URL: ${{ secrets.SECRET_STATUS_URL }}
