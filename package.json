@@ -46,6 +46,8 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^3.0.2",
+		"axios": "^1.4.0",
+		"form-data": "^4.0.0",
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.9",
 		"openai": "^3.3.0",
