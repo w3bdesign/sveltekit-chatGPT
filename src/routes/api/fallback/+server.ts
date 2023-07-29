@@ -1,9 +1,10 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { json } from '@sveltejs/kit';
-import type { Config } from '@sveltejs/adapter-vercel';
 
+import type { Config } from '@sveltejs/adapter-vercel';
 import type { RequestHandler } from './$types';
+import type { AxiosResponse } from 'axios';
 
 import {
 	SECRET_FALLBACK_URL,
@@ -11,13 +12,26 @@ import {
 	SECRET_FALLBACK_DOMAIN
 } from '$env/static/private';
 
+interface Message {
+	role: string;
+	content: string;
+}
+
+interface RequestData {
+	messages: Message[];
+}
+
+interface ResponseData {
+	data: string;
+}
+
 export const config: Config = {
 	runtime: 'edge'
 };
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const requestData = await request.json();
+		const requestData = (await request.json()) as RequestData;
 		if (!requestData) {
 			throw new Error('No request data');
 		}
@@ -36,17 +50,21 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 };
 
-async function createCompletion(messages: any[]) {
+async function createCompletion(messages: Message[]) {
 	const chat =
-		messages
-			.map((message: { role: any; content: any }) => `${message.role}: ${message.content}`)
-			.join('\n') + 'assistant: ';
+		messages.map((message: Message) => `${message.role}: ${message.content}`).join('\n') +
+		'assistant: ';
 
-	const response = await axios.get(SECRET_FALLBACK_URL);
+	const response: AxiosResponse<string> = await axios.get(SECRET_FALLBACK_URL);
 
 	const regex =
 		/data-nonce="(.*)"\n     data-post-id="(.*)"\n     data-url="(.*)"\n     data-bot-id="(.*)"\n     data-width/i;
-	const [, nonce, post_id, , bot_id] = response.data.match(regex);
+
+	const match = response.data.match(regex);
+	if (!match) {
+		throw new Error('No matches found');
+	}
+	const [, nonce, post_id, , bot_id] = match;
 
 	const headers = {
 		authority: SECRET_FALLBACK_DOMAIN,
@@ -76,7 +94,11 @@ async function createCompletion(messages: any[]) {
 
 	headers['Content-Type'] = `multipart/form-data; boundary=${data._boundary}`;
 
-	const postResponse = await axios.post(SECRET_FALLBACK_AJAX_URL, data, { headers });
+	const postResponse: AxiosResponse<ResponseData> = await axios.post(
+		SECRET_FALLBACK_AJAX_URL,
+		data,
+		{ headers }
+	);
 
 	return postResponse.data.data;
 }
