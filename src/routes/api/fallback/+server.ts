@@ -12,6 +12,29 @@ import {
 	SECRET_FALLBACK_DOMAIN
 } from '$env/static/private';
 
+interface FormContent extends FormData {
+	_boundary?: string;
+}
+
+interface Headers {
+	[header: string]: string;
+	authority: string;
+	accept: string;
+	'accept-language': string;
+	'cache-control': string;
+	origin: string;
+	pragma: string;
+	referer: string;
+	'sec-ch-ua': string;
+	'sec-ch-ua-mobile': string;
+	'sec-ch-ua-platform': string;
+	'sec-fetch-dest': string;
+	'sec-fetch-mode': string;
+	'sec-fetch-site': string;
+	'user-agent': string;
+	'Content-Type': string;
+}
+
 interface Message {
 	role: string;
 	content: string;
@@ -29,6 +52,12 @@ export const config: Config = {
 	runtime: 'edge'
 };
 
+/**
+ * Handles a POST request and processes the request data to create a chat completion.
+ *
+ * @param {object} request - The request object containing the data to be processed.
+ * @return {object} The chat completion object in JSON format.
+ */
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const requestData = (await request.json()) as RequestData;
@@ -50,6 +79,12 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 };
 
+/**
+ * Creates a completion based on the given array of messages.
+ *
+ * @param {Message[]} messages - The array of messages to create the completion from.
+ * @return {Promise<string>} - A promise that resolves with the completion string.
+ */
 async function createCompletion(messages: Message[]) {
 	const chat =
 		messages.map((message: Message) => `${message.role}: ${message.content}`).join('\n') +
@@ -66,7 +101,7 @@ async function createCompletion(messages: Message[]) {
 	}
 	const [, nonce, post_id, , bot_id] = match;
 
-	const headers = {
+	const headers: Headers = {
 		authority: SECRET_FALLBACK_DOMAIN,
 		accept: '*/*',
 		'accept-language': 'en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3',
@@ -81,10 +116,12 @@ async function createCompletion(messages: Message[]) {
 		'sec-fetch-mode': 'cors',
 		'sec-fetch-site': 'same-origin',
 		'user-agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+		'Content-Type': 'multipart/form-data'
 	};
 
-	const data = new FormData();
+	const data: FormContent = new FormData();
+
 	data.append('_wpnonce', nonce);
 	data.append('post_id', post_id);
 	data.append('url', SECRET_FALLBACK_URL);
