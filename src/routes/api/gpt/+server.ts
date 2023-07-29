@@ -62,6 +62,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				'Content-Type': 'text/event-stream'
 			}
 		});
+		
 	} catch (err) {
 		console.error('Error: ', err);
 		return json({ error: 'There was an error processing your request' }, { status: 500 });
