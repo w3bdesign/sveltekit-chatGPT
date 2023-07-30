@@ -28,7 +28,7 @@ jobs:
           SECRET_FALLBACK_DOMAIN: ${{ secrets. SECRET_FALLBACK_DOMAIN }}
           SECRET_FALLBACK_URL: ${{ secrets.SECRET_FALLBACK_URL }}
           SECRET_FALLBACK_AJAX_URL: ${{ secrets.SECRET_FALLBACK_AJAX_URL }}
-         
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
