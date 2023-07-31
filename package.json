@@ -21,7 +21,7 @@
 		"@playwright/test": "^1.36.2",
 		"@skeletonlabs/skeleton": "^1.10.0",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.22.3",
+		"@sveltejs/kit": "^1.22.4",
 		"@testing-library/svelte": "^4.0.3",
 		"@types/js-beautify": "^1.13.3",
 		"@typescript-eslint/eslint-plugin": "^6.2.0",
