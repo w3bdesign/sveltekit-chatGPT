@@ -15,6 +15,8 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: npm ci
+      - name: List files
+        run: ls -l ./tests/unit/components
       - name: Run Unit tests
         run: npm run test:unit
         env:
