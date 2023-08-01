@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/svelte';
 
-import Button from '$components/Button.svelte';
+import Button from '../../../src/components/Button.svelte';
 
 describe('Button', () => {
 	it('Should render without crashing', () => {

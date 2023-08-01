@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/svelte';
 
-import ApiStatus from '$components/ApiStatus.svelte';
+import ApiStatus from '../../../src/components/ApiStatus.svelte';
 
 describe('ApiStatus', () => {
 	it('should show Connecting to API initially', () => {
