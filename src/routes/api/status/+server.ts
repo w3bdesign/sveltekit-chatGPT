@@ -16,14 +16,13 @@ export const GET: RequestHandler = async () => {
 		}
 
 		const response = await fetch(SECRET_STATUS_URL);
-		const data = await response.json();
 
-		if (!response.ok) {
+		if (!response.status) {
 			throw new Error('Network response was not ok');
 		}
 
 		// Forward the response to the client
-		return json(data);
+		return json(response.status);
 	} catch (err) {
 		console.error('Error: ', err);
 		return json({ error: 'There was an error processing your request' }, { status: 500 });
