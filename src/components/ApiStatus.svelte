@@ -7,7 +7,7 @@
 	import { writable, derived } from 'svelte/store';
 
 	const API_STATUS_URL = '/api/status';
-	const CHAT_COMPLETIONS_ENDPOINT = '/api/v1/chat/completions';
+	
 
 	let statusMessage = writable('Connecting to API');
 	let showAlert = writable(true);
@@ -36,40 +36,23 @@
 		return statusToClass.get('default');
 	});
 
-	const checkApiConnection = async (retries = 10) => {
+	const checkApiConnection = async (retries = 3) => {
 		for (let i = 0; i < retries; i++) {
 			try {
 				const response = await fetch(API_STATUS_URL);
 
-				if (!response.ok) {
+				if (response.status !== 200) {
 					throw new Error('Network response was not ok');
 				}
 
-				const result = await response.json();
-
 				// Check if CHAT_COMPLETIONS_ENDPOINT is working
-				if (
-					result.endpoints &&
-					result.endpoints[CHAT_COMPLETIONS_ENDPOINT] &&
-					result.endpoints[CHAT_COMPLETIONS_ENDPOINT].works
-				) {
+				if (response.status === 200) {
 					isConnected = true;
 					wasEverConnected = true;
 
-					// Extract the model name from the status string
-					const modelNameMatch =
-						result.endpoints[CHAT_COMPLETIONS_ENDPOINT].status.match(/\[(.*?)\]/);
-
-					if (modelNameMatch) {
-						const modelName = modelNameMatch[1];
-						statusMessage.set(`Connected to ${modelName.toUpperCase()}`);
-					} else {
-						statusMessage.set('Connected to API');
-					}
-
-					break;
+					statusMessage.set('Connected to API');
 				} else {
-					statusMessage.set(`The ${CHAT_COMPLETIONS_ENDPOINT} endpoint is not working`);
+					statusMessage.set(`The endpoint is not working`);
 				}
 			} catch (error) {
 				if (i === retries - 1) {

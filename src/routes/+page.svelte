@@ -12,7 +12,7 @@
 
 	import textStore from '$store/store';
 	import { addQuestionAndAssociateOutput } from '$store/storeHelpers';
-	import ModelSelect from '$components/ModelSelect.svelte';
+
 	import ApiStatus from '$components/ApiStatus.svelte';
 
 	const MAX_RETRY_COUNT = 5;
@@ -66,6 +66,7 @@
 			// Handle messages from the server
 			eventSource.addEventListener('message', (e: { data: any }) => {
 				retryCount = 0; // Reset retry count on successful message
+
 				const data = JSON.parse(e.data);
 
 				if (data.choices[0].finish_reason === 'stop') {
@@ -85,6 +86,7 @@
 
 				try {
 					const data = JSON.parse(e.data);
+
 					textStore.update((text) => {
 						return {
 							...text,
@@ -130,9 +132,8 @@
 			bind:value={$textStore.inputText}
 			{handleSubmit}
 		/>
-		<div class="flex mt-4 mb-8">
+		<div class="flex mt-4 mb-8 justify-center">
 			<Button buttonType="filled" {isDisabled}>Submit</Button>
-			<ModelSelect bind:selectedModel />
 		</div>
 	</form>
 	{#if isLoading}
