@@ -117,11 +117,11 @@
 </script>
 
 <svelte:head>
-	<title>Main - GPT-4 Chat</title>
+	<title>Main - Chat</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-center mt-6 p-4">
-	<Header text="GPT-4 Chat" />
+	<Header text="Chat" />
 	<ApiStatus />
 	<form data-testid="gptform" id="gptform" on:submit|preventDefault={handleSubmit}>
 		<label for="gptChatBox" class="text-sm mb-2">Input:</label>
