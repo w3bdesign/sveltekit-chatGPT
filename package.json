@@ -49,7 +49,7 @@
 		"form-data": "^4.0.0",
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.9",
-		"openai": "^4.3.1",
+		"openai": "^4.4.0",
 		"sse.js": "^1.0.0"
 	}
 }
