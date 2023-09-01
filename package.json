@@ -50,6 +50,6 @@
 		"highlight.js": "^11.8.0",
 		"js-beautify": "^1.14.9",
 		"openai": "^4.3.1",
-		"sse.js": "^0.6.1"
+		"sse.js": "^1.0.0"
 	}
 }
