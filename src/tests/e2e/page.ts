@@ -21,7 +21,7 @@ test('GPT Chat and text submission', async ({ page }) => {
 	await page.getByRole('button', { name: 'Submit' }).click();
 
 	// Wait for the output message to appear on the page
-	await page.waitForSelector('[data-testid="ai-response-container"]', { timeout: 10000 });
+	await page.waitForSelector('[data-testid="ai-response-container"]', { timeout: 15000 });
 
 	// Check if there is at least one output message container
 	const outputMessageContainer = await page.getByTestId('ai-response-container');
