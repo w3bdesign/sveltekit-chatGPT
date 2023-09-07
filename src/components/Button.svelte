@@ -5,14 +5,14 @@
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	export let buttonType = 'filled';
-	export let buttonWidth = '8rem';
 	export let isDisabled = false;
+	export let buttonWidth = '10rem';
 	export let buttonAction: MouseEventHandler<HTMLButtonElement> | undefined = undefined;
 </script>
 
 <button
 	type="submit"
-	class={`btn variant-${buttonType} py-2 w-[${buttonWidth}]`}
+	class={`btn variant-${buttonType} py-2 w-[${buttonWidth}] text-white`}
 	disabled={isDisabled}
 	on:click={buttonAction ? buttonAction : () => {}}
 >

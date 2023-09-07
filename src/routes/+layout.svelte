@@ -1,10 +1,11 @@
 <script>
-	import { Toast } from '@skeletonlabs/skeleton';
-
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
+	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 
 	import Footer from '$components/Footer.svelte';
+
+	import '../app.postcss'; // KEEP THIS!
+
+	initializeStores();
 </script>
 
 <main class="flex-1">

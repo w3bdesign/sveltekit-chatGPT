@@ -1,16 +1,22 @@
 import textStore from './store';
 
 /**
- * Adds a new question to the store and associates it with the provided output text.
+ * Adds a question and associates output to the store.
  *
- * @param {number} questionId - The ID of the question to be added.
- * @param {any[]} outputText - The output text to associate with the new question.
+ * @param {number} questionId - The ID of the question.
+ * @param {any[]} outputText - An array of output texts.
+ * @param {string} routeName - The name of the route.
  */
-export function addQuestionAndAssociateOutput(questionId: number, outputText: any[]) {
+export function addQuestionAndAssociateOutput(
+	questionId: number,
+	outputText: any[],
+	routeName: string
+) {
 	textStore.update((store) => {
 		const newQuestion = {
 			id: questionId,
-			outputText: outputText
+			outputText: outputText,
+			routeName: routeName
 		};
 
 		store.questions.push(newQuestion);

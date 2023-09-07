@@ -1,6 +1,3 @@
-[![Playwright Tests](https://github.com/w3bdesign/sveltekit-chatGPT/actions/workflows/playwright.yml/badge.svg)](https://github.com/w3bdesign/sveltekit-chatGPT/actions/workflows/playwright.yml)
-[![Vitest Unit Tests](https://github.com/w3bdesign/sveltekit-chatGPT/actions/workflows/vitest.yml/badge.svg)](https://github.com/w3bdesign/sveltekit-chatGPT/actions/workflows/vitest.yml)
-
 ![Screenshot](https://user-images.githubusercontent.com/45217974/256115039-2a9dc133-85e0-4b6f-ab64-b1bff8fa4b4c.png)
 
 # Sveltekit with GPT-4
@@ -12,8 +9,6 @@ Skeleton and Tailwind CSS for styling.
 Animations with `svelte/transition`.
 
 State management with `svelte/store`.
-
-Choose which chat language model to use.
 
 ## Getting started
 

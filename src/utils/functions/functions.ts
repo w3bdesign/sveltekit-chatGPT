@@ -27,11 +27,8 @@ interface Delta {
  * property with a string value containing the code block itself. The array is cleaned to remove the string "undefined".
  */
 export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
-	let content = ''; // initialize an empty string
-	for (let delta of deltas) {
-		// loop over the array of objects
-		content += delta.choices[0].delta.content; // access the content property of each delta object inside the choices array
-	}
+	const content = deltas.join('');
+
 	const regex = /```(?:([\w-]+)\n)?([\s\S]*?)```|`([^`]+)`/g;
 	const blocks = [];
 	let lastIndex = 0;
@@ -42,7 +39,7 @@ export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 		if (lastIndex !== match.index) {
 			blocks.push({
 				type: 'text',
-				content: content.slice(lastIndex, match.index)
+				content: ' ' + content.slice(lastIndex, match.index).trim().replace(/\n/g, '<br>') + ' '
 			});
 		}
 
@@ -61,7 +58,7 @@ export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 	if (lastIndex < content.length) {
 		blocks.push({
 			type: 'text',
-			content: content.slice(lastIndex)
+			content: ' ' + content.slice(lastIndex).trim().replace(/\n/g, '<br>') + ' '
 		});
 	}
 
@@ -72,19 +69,4 @@ export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
 		}
 		return block;
 	});
-}
-
-/**
- * Checks if a given string is a valid JSON.
- *
- * @param {string} jsonString - The string to be checked if it is a valid JSON.
- * @return {boolean} Returns true if the string is a valid JSON, otherwise returns false.
- */
-export function isValidJSON(jsonString: string): boolean {
-	try {
-		JSON.parse(jsonString);
-		return true;
-	} catch {
-		return false;
-	}
 }
