@@ -27,8 +27,9 @@
 
 	import { writable } from 'svelte/store';
 	import { fly, fade } from 'svelte/transition';
-	import { CodeBlock, storeHighlightJs, toastStore } from '@skeletonlabs/skeleton';
+	import { CodeBlock, storeHighlightJs } from '@skeletonlabs/skeleton';
 
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	import { processTextAndCodeBlocks } from '$utils/functions/functions';
@@ -39,8 +40,11 @@
 	import Button from './Button.svelte';
 
 	export let data: CompletionsArray = [];
+	export let routeName: string;
 
 	const content = writable<CompletionsArray>();
+
+	const toastStore = getToastStore();
 
 	storeHighlightJs.set(hljs);
 
@@ -50,7 +54,7 @@
 
 	async function copyToClipboard() {
 		try {
-			const concatenatedContent = $content.map((item) => item.choices[0].delta.content).join('');
+			const concatenatedContent = $content.map((item) => item).join('');
 
 			await navigator.clipboard.writeText(concatenatedContent);
 
@@ -74,7 +78,10 @@
 <div class="w-full sm:w-auto" data-testid="ai-response-container">
 	<div class="mt-2 mb-3" in:fly={{ y: 50, duration: 500 }} out:fade>
 		<div class="border shadow-md rounded p-2 w-full md:w-[45rem] relative bg-white">
-			<div class="w-full flex justify-end">
+			<div class="w-full flex justify-between mt-2">
+				<div class="text-base p-2 bg-gray-200 ml-4">
+					Route: <span class="font-bold">{routeName}</span>
+				</div>
 				<Button buttonAction={copyToClipboard} buttonType="filled-secondary" buttonWidth="4rem">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +98,7 @@
 					</svg>
 				</Button>
 			</div>
-			<div class="p-2 mb-4 ml-4">
+			<div class="p-2 mb-4 ml-4 mt-4">
 				{#each processTextAndCodeBlocks(data) as block}
 					{#if block.type === 'code'}
 						{#if block.inline}
