@@ -4,11 +4,11 @@ test('GPT Chat and text submission', async ({ page }) => {
 	// Navigate to the page with the GPT Chat component
 	await page.goto('/');
 
-	await expect(page.getByRole('heading', { name: 'GPT-4 Chat' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Chat' })).toBeVisible();
 
 	// Ensure the page title is correct
 	const pageTitle = await page.title();
-	expect(pageTitle).toBe('Main - GPT-4 Chat');
+	expect(pageTitle).toBe('Main - Chat');
 
 	// Type user input into the textarea
 	const userInput = 'Hi';
