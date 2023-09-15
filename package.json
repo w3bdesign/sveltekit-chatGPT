@@ -26,7 +26,7 @@
 		"@sveltejs/kit": "^1.25.0",
 		"@testing-library/svelte": "^4.0.3",
 		"@types/js-beautify": "^1.14.0",
-		"@types/node": "^20.6.0",
+		"@types/node": "^20.6.1",
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"autoprefixer": "^10.4.15",
