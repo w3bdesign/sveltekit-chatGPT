@@ -49,7 +49,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^3.0.3",
-		"axios": "^1.5.0",
+		"axios": "^1.5.1",
 		"events": "^3.3.0",
 		"eventsource": "^2.0.2",
 		"form-data": "^4.0.0",
