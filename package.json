@@ -55,7 +55,7 @@
 		"form-data": "^4.0.0",
 		"highlight.js": "^11.9.0",
 		"js-beautify": "^1.14.9",
-		"openai": "^4.14.0",
+		"openai": "^4.14.1",
 		"sse.js": "^1.0.0",
 		"url": "^0.11.3",
 		"util": "^0.12.5",
