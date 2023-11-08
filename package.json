@@ -21,7 +21,7 @@
 		"@iconify/svelte": "^3.1.4",
 		"@playwright/test": "^1.39.0",
 		"@skeletonlabs/skeleton": "^2.4.0",
-		"@skeletonlabs/tw-plugin": "^0.2.3",
+		"@skeletonlabs/tw-plugin": "^0.2.4",
 		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/kit": "^1.27.3",
 		"@testing-library/svelte": "^4.0.5",
