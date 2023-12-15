@@ -27,7 +27,7 @@ jobs:
           SECRET_STATUS_URL: ${{ secrets.SECRET_STATUS_URL }}          
           SECRET_FALLBACK_API_URL: ${{ secrets.SECRET_FALLBACK_API_URL }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
