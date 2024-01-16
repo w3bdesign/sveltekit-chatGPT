@@ -48,7 +48,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-vercel": "^4.0.4",
+		"@sveltejs/adapter-vercel": "^4.0.5",
 		"axios": "^1.6.5",
 		"events": "^3.3.0",
 		"eventsource": "^2.0.2",
