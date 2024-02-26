@@ -23,7 +23,7 @@
 		"@skeletonlabs/skeleton": "^2.8.0",
 		"@skeletonlabs/tw-plugin": "^0.3.1",
 		"@sveltejs/adapter-auto": "^3.1.1",
-		"@sveltejs/kit": "^2.5.1",
+		"@sveltejs/kit": "^2.5.2",
 		"@testing-library/svelte": "^4.1.0",
 		"@types/js-beautify": "^1.14.3",
 		"@types/node": "^20.11.20",
