@@ -25,6 +25,12 @@
 
 	type CompletionsArray = Completion[];
 
+	import { Marked } from 'marked';
+
+	import { onMount } from 'svelte';
+
+	import { markedHighlight } from 'marked-highlight';
+
 	import { writable } from 'svelte/store';
 	import { fly, fade } from 'svelte/transition';
 	import { CodeBlock, storeHighlightJs } from '@skeletonlabs/skeleton';
@@ -34,7 +40,28 @@
 
 	import { processTextAndCodeBlocks } from '$utils/functions/functions';
 
-	import hljs from 'highlight.js';
+	import hljs from 'highlight.js/lib/core';
+
+	// Import each language module you require
+	import xml from 'highlight.js/lib/languages/xml'; // for HTML
+	import css from 'highlight.js/lib/languages/css';
+	import json from 'highlight.js/lib/languages/json';
+	import javascript from 'highlight.js/lib/languages/javascript';
+	import typescript from 'highlight.js/lib/languages/typescript';
+	import shell from 'highlight.js/lib/languages/shell';
+	import php from 'highlight.js/lib/languages/php';
+	import bash from 'highlight.js/lib/languages/bash';
+
+	// Register each imported language module
+	hljs.registerLanguage('xml', xml); // for HTML
+	hljs.registerLanguage('css', css);
+	hljs.registerLanguage('json', json);
+	hljs.registerLanguage('javascript', javascript);
+	hljs.registerLanguage('typescript', typescript);
+	hljs.registerLanguage('shell', shell);
+	hljs.registerLanguage('php', php);
+	hljs.registerLanguage('bash', bash);
+
 	import 'highlight.js/styles/github-dark.css';
 
 	import Button from './Button.svelte';
@@ -46,11 +73,31 @@
 
 	const toastStore = getToastStore();
 
+	let parsedData: string | Promise<string>;
+
 	storeHighlightJs.set(hljs);
 
 	$: {
 		content.set(data);
 	}
+
+	onMount(() => {
+		const marked = new Marked(
+			markedHighlight({
+				langPrefix: 'hljs language-',
+				highlight(code, lang) {
+					const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+
+					const highlightedCode = hljs.highlight(code, { language }).value;
+
+					// Add inline styles to the pre and code elements
+					return `<div style="margin-top: 10px; margin-bottom: 10px; padding: 15px; border-radius: 5px; color: #fff; background-color: #282c34; font-size: 14px">${highlightedCode}</div>`;
+				}
+			})
+		);
+
+		parsedData = marked.parse(data.toString());
+	});
 
 	async function copyToClipboard() {
 		try {
@@ -99,21 +146,25 @@
 				</Button>
 			</div>
 			<div class="p-2 mb-4 ml-4 mt-4">
-				{#each processTextAndCodeBlocks(data) as block}
-					{#if block.type === 'code'}
-						{#if block.inline}
-							<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"
-								>{block.code}</code
-							>
+				{#if routeName === '/api/wizardcoder'}
+					{@html parsedData}
+				{:else}
+					{#each processTextAndCodeBlocks(data) as block}
+						{#if block.type === 'code'}
+							{#if block.inline}
+								<code class="px-1 py-0.5 m-0 text-sm break-spaces bg-gray-200 rounded-md"
+									>Code: {block.code}</code
+								>
+							{:else}
+								<div class="py-6 px-2">
+									<CodeBlock language={block.language} code={`${block.code}`} />
+								</div>
+							{/if}
 						{:else}
-							<div class="py-6 px-2">
-								<CodeBlock language={block.language} code={`${block.code}`} />
-							</div>
+							{@html block.content}
 						{/if}
-					{:else}
-						{@html block.content}
-					{/if}
-				{/each}
+					{/each}
+				{/if}
 			</div>
 		</div>
 	</div>

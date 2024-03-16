@@ -2,46 +2,50 @@
 	import { onMount } from 'svelte';
 	import { writable, derived } from 'svelte/store';
 
-	type RouteStatus = {
+	import { ROUTES } from '../constants/ROUTES';
+
+	type ROUTEStatus = {
 		status: number;
 		time: number;
 	};
 
 	type Result = {
 		status: 'fulfilled' | 'rejected';
-		value?: RouteStatus;
+		value?: ROUTEStatus;
 		reason?: unknown;
 	};
 
-	const routes = ['/api/sse', '/api/fallback'];
-
 	let statusMessage = writable('Connecting to API');
+
+	let failedROUTESCount = writable(0);
 
 	let isConnected = false;
 	let wasEverConnected = false;
 
-	const statusToClass = new Map([
-		['Connected to API', 'variant-filled-primary'],
-		['Connecting to API', 'variant-filled-surface'],
-		['Connection failed', 'variant-filled-warning'],
-		['default', 'variant-filled-error']
-	]);
+	let results: Result[] = [];
 
-	let alertClass = derived(statusMessage, ($statusMessage) => {
-		if ($statusMessage.startsWith('Connected to')) {
-			return 'variant-filled-primary';
-		}
-
-		for (let [key, value] of statusToClass.entries()) {
-			if ($statusMessage.startsWith(key)) {
-				return value;
+	let alertClass = derived(
+		[statusMessage, failedROUTESCount],
+		([$statusMessage, $failedROUTESCount]) => {
+			if ($statusMessage.startsWith('Connected to')) {
+				return 'variant-filled-primary';
 			}
+
+			if ($statusMessage.startsWith('Connecting to')) {
+				return 'variant-filled-surface';
+			}
+
+			if ($failedROUTESCount === 1) {
+				return 'variant-filled-warning';
+			} else if ($failedROUTESCount > 1) {
+				return 'variant-filled-error';
+			}
+
+			return 'variant-filled-error'; // Default to error class
 		}
+	);
 
-		return statusToClass.get('default');
-	});
-
-	async function fetchRouteStatus(route: string): Promise<RouteStatus> {
+	async function fetchROUTEStatus(route: string): Promise<ROUTEStatus> {
 		const startTime = Date.now();
 		const response = await fetch(`${route}?prompt=Hello`);
 		const time = Date.now() - startTime;
@@ -53,14 +57,16 @@
 		return { status: 200, time: Math.round(time) };
 	}
 
-	function processResults(results: Result[]): string[] {
-		return results.map((result, index: number) => {
+	function processResults(results: Result[]): any[] {
+		return results.map((result, index) => {
 			if (result.status === 'fulfilled') {
-				return `<br>Route ${index + 1}: ${result.value?.status === 200 ? 'OK' : 'Failed'} (${
-					result.value?.time
-				}ms)`;
+				return {
+					route: ROUTES[index],
+					status: result.value?.status === 200 ? 'OK' : 'Failed',
+					time: result.value?.time
+				};
 			} else {
-				return `Route ${index + 1}: Failed`;
+				return { route: ROUTES[index], status: 'Failed', time: 0 };
 			}
 		});
 	}
@@ -70,17 +76,20 @@
 
 		for (let i = 0; i < retries; i++) {
 			try {
-				const results = await Promise.allSettled(routes.map(fetchRouteStatus));
+				results = await Promise.allSettled(ROUTES.map(fetchROUTEStatus));
 				responseTimes = processResults(results);
 
 				const allConnected = results.every(
-					(result) => result.status === 'fulfilled' && result.value.status === 200
+					(result) => result.status === 'fulfilled' && result?.value?.status === 200
 				);
 
 				if (allConnected) {
 					isConnected = true;
 					wasEverConnected = true;
 					break;
+				} else {
+					const failedCount = results.filter((result) => result.status === 'rejected').length;
+					failedROUTESCount.set(failedCount);
 				}
 			} catch (error) {
 				// Wait for 2 seconds before retrying
@@ -89,20 +98,28 @@
 		}
 
 		if (isConnected) {
-			statusMessage.set(`Connected to API<br>${responseTimes?.join('')}`);
+			statusMessage.set(`Connected to API`);
 		} else {
 			statusMessage.set(
 				wasEverConnected
 					? 'Lost connection to API. Please try refreshing the page.'
-					: 'Failed to connect to API. Please try refreshing the page.'
+					: 'Failed to connect to API.'
 			);
+
+			if ($failedROUTESCount === 1) {
+				statusMessage.set('Failed to connect to a route. One or more routes is working.');
+			}
+
+			if ($failedROUTESCount > 1) {
+				statusMessage.set('Failed to connect to API.');
+			}
 		}
 	}
 
 	function accordion(node: HTMLElement, isOpen: boolean) {
 		const content = node.querySelector('p');
 		const closedHeight = node.offsetHeight;
-		const openHeight = closedHeight + (content?.offsetHeight || 0) + 20; // Add 20px (10px top + 10px bottom)
+		const openHeight = closedHeight + (content?.offsetHeight || 0) + 150; // Add 30px (10px top + 10px bottom)
 
 		node.style.height = isOpen ? `${openHeight}px` : `${closedHeight}px`;
 		node.style.overflow = 'hidden';
@@ -142,5 +159,35 @@
 	class="shadow-md rounded min-h-[60px] w-full md:w-[45rem] mt-1 mb-5 {$alertClass}"
 	use:accordion={isConnected}
 >
-	<p class="text-center mx-auto p-4">{@html $statusMessage}</p>
+	<p class="text-center mx-auto p-4">
+		<span class="font-bold">{@html $statusMessage}</span>
+		{#if isConnected}
+			<table class="w-4/6 border-collapse mt-4 shadow-md mx-auto">
+				<thead>
+					<tr>
+						<th class="border-r-2 border-gray-600 px-2 py-2 bg-gray-700 text-white font-bold"
+							>Route name</th
+						>
+						<th class="border-r-2 border-gray-600 px-2 py-2 bg-gray-700 text-white font-bold"
+							>Status</th
+						>
+						<th class="border-r-2 border-gray-600 px-2 py-2 bg-gray-700 text-white font-bold"
+							>Time (ms)</th
+						>
+						<th class="px-2 py-2 bg-gray-700 text-white font-bold">Note</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each processResults(results) as { route, status, time }, index}
+						<tr class:bg-gray-100={index % 2 === 0} class:bg-white={index % 2 !== 0}>
+							<td class="border-r-2 border-l-2 px-2 py-2">{route}</td>
+							<td class="border-r-2 border-l-2 px-2 py-2">{status}</td>
+							<td class="border-r-2 border-l-2 px-2 py-2">{time}</td>
+							<td class="border-r-2 border-l-2 px-2 py-2">No context</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		{/if}
+	</p>
 </div>

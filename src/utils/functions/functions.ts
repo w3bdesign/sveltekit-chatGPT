@@ -27,14 +27,14 @@ interface Delta {
  * property with a string value containing the code block itself. The array is cleaned to remove the string "undefined".
  */
 export function processTextAndCodeBlocks(deltas: CompletionChunk[]) {
-	const content = deltas.join('');
+	const content = Array.isArray(deltas) ? deltas.join('') : deltas;
 
 	const regex = /```(?:([\w-]+)\n)?([\s\S]*?)```|`([^`]+)`/g;
 	const blocks = [];
 	let lastIndex = 0;
 	let match;
 
-	while ((match = regex.exec(content)) !== null) {
+	while ((match = regex.exec(content as any)) !== null) {
 		// Add a text block before the code block
 		if (lastIndex !== match.index) {
 			blocks.push({
