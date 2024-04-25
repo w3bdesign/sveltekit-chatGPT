@@ -24,7 +24,7 @@
 		"@skeletonlabs/tw-plugin": "^0.4.0",
 		"@sveltejs/kit": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
-		"@testing-library/svelte": "^5.0.1",
+		"@testing-library/svelte": "^5.1.0",
 		"@types/js-beautify": "^1.14.3",
 		"@types/node": "^20.12.7",
 		"@typescript-eslint/eslint-plugin": "^7.7.1",
