@@ -57,7 +57,7 @@
 		"js-beautify": "^1.15.1",
 		"marked": "^12.0.2",
 		"marked-highlight": "^2.1.1",
-		"openai": "^4.47.2",
+		"openai": "^4.47.3",
 		"sse.js": "^2.4.1",
 		"url": "^0.11.3",
 		"util": "^0.12.5",
