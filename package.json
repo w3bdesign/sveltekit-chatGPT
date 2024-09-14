@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^4.0.2",
-		"@playwright/test": "^1.45.1",
+		"@playwright/test": "^1.47.1",
 		"@skeletonlabs/skeleton": "^2.10.1",
 		"@skeletonlabs/tw-plugin": "^0.4.0",
 		"@sveltejs/kit": "^2.5.18",
