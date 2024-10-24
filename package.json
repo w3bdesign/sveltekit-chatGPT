@@ -52,7 +52,7 @@
 		"axios": "^1.7.5",
 		"events": "^3.3.0",
 		"eventsource": "^2.0.2",
-		"form-data": "^4.0.0",
+		"form-data": "^4.0.1",
 		"highlight.js": "^11.10.0",
 		"js-beautify": "^1.15.1",
 		"marked": "^13.0.3",
