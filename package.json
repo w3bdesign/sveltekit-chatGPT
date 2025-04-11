@@ -29,7 +29,7 @@
 		"@types/node": "^22.13.14",
 		"@typescript-eslint/eslint-plugin": "^8.29.0",
 		"@typescript-eslint/parser": "^8.29.0",
-		"autoprefixer": "^10.4.20",
+		"autoprefixer": "^10.4.21",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^3.5.1",
