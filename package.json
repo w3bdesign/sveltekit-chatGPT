@@ -51,7 +51,7 @@
 		"@sveltejs/adapter-vercel": "^5.6.3",
 		"axios": "^1.8.4",
 		"events": "^3.3.0",
-		"eventsource": "^2.0.2",
+		"eventsource": "^3.0.7",
 		"form-data": "^4.0.2",
 		"highlight.js": "^11.11.1",
 		"js-beautify": "^1.15.4",
