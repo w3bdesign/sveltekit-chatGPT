@@ -22,7 +22,7 @@
 		"@playwright/test": "^1.47.1",
 		"@skeletonlabs/skeleton": "^3.2.2",
 		"@skeletonlabs/tw-plugin": "^0.4.1",
-		"@sveltejs/kit": "^2.8.0",
+		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@testing-library/svelte": "^5.2.1",
 		"@types/js-beautify": "^1.14.3",
